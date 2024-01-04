@@ -2,10 +2,11 @@ import Home from './src/screens/Home';
 import ObjectList from './src/screens/ObjectList';
 import Details from './src/screens/Details';
 
-
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
+
+
 
 const App = () => {
   return (
@@ -16,7 +17,6 @@ const App = () => {
           <Stack.Screen name="Details" component={Details} />
         </Stack.Navigator>
       </NavigationContainer>
-
   );
 }
 

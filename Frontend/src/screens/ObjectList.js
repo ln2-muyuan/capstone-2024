@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Button } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Button, ScrollView } from 'react-native';
 
 
 
@@ -8,6 +8,11 @@ const ObjectList = ({ navigation }) => {
 
   const patientList = [
     { id: 1, name: '20210119001723', tags: ['标签1', '标签2'] },
+    { id: 2, name: '20201222003169', tags: ['标签2', '标签3'] },
+    { id: 2, name: '20201222003169', tags: ['标签2', '标签3'] },
+    { id: 2, name: '20201222003169', tags: ['标签2', '标签3'] },
+    { id: 2, name: '20201222003169', tags: ['标签2', '标签3'] },
+    { id: 2, name: '20201222003169', tags: ['标签2', '标签3'] },
     { id: 2, name: '20201222003169', tags: ['标签2', '标签3'] },
   ];
 
@@ -35,6 +40,9 @@ const ObjectList = ({ navigation }) => {
   
   const tagsList = [
     { id: 1, name: 'TIGC', tags: ['标签1'] },
+    { id: 2, name: 'T1S', tags: ['标签2'] },
+    { id: 2, name: 'T1S', tags: ['标签2'] },
+    { id: 2, name: 'T1S', tags: ['标签2'] },
     { id: 2, name: 'T1S', tags: ['标签2'] },
   ];
 
@@ -70,15 +78,19 @@ const ObjectList = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Check available patient ID</Text>
+
+      <Text style={styles.title}>Check recent patient</Text>
       <FlatList
+        style={{ maxHeight: 200, marginBottom: 10 }}
         data={patientList}
         renderItem={renderPatients}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.listContainer}
       />
 
-      <Text style={styles.title}>Check available tags</Text>
+
+
+      <Text style={styles.title}>Check tags</Text>
       <FlatList
         data={tagsList}
         renderItem={renderTags}
@@ -89,7 +101,9 @@ const ObjectList = ({ navigation }) => {
 
       <View style={styles.selectedPatientIDContainer}>
         <Text style={styles.selectedPatientIDText}>Selected patient ID: </Text>
+        {selectedPatientID && (
         <Text style={styles.selectedTag}>{selectedPatientID}</Text>
+        )}
       </View>
       <View style={styles.selectedPatientIDContainer}>
         <Text style={styles.selectedPatientIDText}>Selected tags: </Text>
@@ -98,6 +112,8 @@ const ObjectList = ({ navigation }) => {
           <Text key={tag} style={styles.selectedTag}>{tag}</Text>
         ))}
       </View>
+
+
       <Button title="Check" onPress={() => navigation.navigate('Details')} />
 
     </View>
@@ -117,6 +133,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#333333',
     marginBottom: 8,
   },
 

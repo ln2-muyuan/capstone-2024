@@ -23,19 +23,19 @@ const Navbar = () => {
 const styles = StyleSheet.create({
   navbar: {
     position: 'absolute',
-    height: 60,
+    height: 70,
     bottom: 0,
     left: 0,
     right: 0,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#eaeaea',
     padding: 10
   },
   buttonImage: {
-    width: 40,
-    height: 40,
+    width: 35,
+    height: 35,
   },
 });
 
