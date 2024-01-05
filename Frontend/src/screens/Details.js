@@ -5,7 +5,6 @@ import ImageSlider from '../components/ImageSlider';
 const Details = () => {
     return (
         <ScrollView>
-            <Text>Details</Text>
             <ImageSlider/>
             <ImageSlider/>
         </ScrollView>

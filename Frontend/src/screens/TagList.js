@@ -1,29 +1,43 @@
+
+
 import React, { useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Button, ScrollView } from 'react-native';
 
 
 
-const ObjectList = ({ navigation }) => {
-  const [selectedPatientID, setselectedPatientID] = useState('');
+const TagList = ({ navigation }) => {
 
-  const patientList = [
-    { id: 1, name: 'PatientA-673415', tags: ['标签1', '标签2'] },
-    { id: 2, name: 'PatientB-375080', tags: ['标签2', '标签3'] },
-    { id: 3, name: 'PatientC-751391', tags: ['标签2', '标签3'] },
-    { id: 4, name: 'PatientD-769546', tags: ['标签2', '标签3'] },
-    { id: 5, name: 'PatientE-134682', tags: ['标签2', '标签3'] },
+
+
+
+
+  const [selectedTags, setselectedTags] = useState([]);
+  
+  const tagsList = [
+    { id: 1, name: 'TIGC', tags: ['标签1'] },
+    { id: 2, name: 'T1S', tags: ['标签2'] },
+    { id: 3, name: 'T1SC', tags: ['标签2'] },
+    { id: 4, name: 'T1ZC', tags: ['标签2'] },
+    { id: 5, name: 'T2S', tags: ['标签2'] },
   ];
 
-  const handlePatientSelection = (tag) => {
-    setselectedPatientID(tag);
+  console.log(selectedTags);
+
+  const handleTagsSelection = (tag) => {
+    if (selectedTags.includes(tag)) {
+      setselectedTags(selectedTags.filter((selectedTag) => selectedTag !== tag));
+    } else {
+      setselectedTags([...selectedTags, tag]);
+    }
+    console.log(selectedTags);
   };
 
-  const renderPatients = ({ item }) => {
-    const isSelected = selectedPatientID.includes(item.name);
+  const renderTags = ({ item }) => {
+    const isSelected = selectedTags.includes(item.name);
     return (
       <TouchableOpacity
         style={[styles.item, isSelected && styles.selectedItem]}
-        onPress={() => handlePatientSelection(item.name)}
+        onPress={() => handleTagsSelection(item.name)}
       >
         <Text style={styles.itemText}>{item.name}</Text>
       </TouchableOpacity>
@@ -37,38 +51,32 @@ const ObjectList = ({ navigation }) => {
 
 
 
-
-
-
-
   return (
     <View style={styles.container}>
 
-      <Text style={styles.title}>Select recent patient</Text>
+ 
+
+
+      <Text style={styles.title}>Check tags</Text>
       <FlatList
-        style={{ marginBottom: 10 }}
-        data={patientList}
-        renderItem={renderPatients}
+        data={tagsList}
+        renderItem={renderTags}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.listContainer}
       />
 
 
 
-
-
-
       <View style={styles.selectedPatientIDContainer}>
-        <Text style={styles.selectedPatientIDText}>Selected patient ID: </Text>
-        {selectedPatientID && (
-        <Text style={styles.selectedTag}>{selectedPatientID}</Text>
-        )}
+        <Text style={styles.selectedPatientIDText}>Selected tags: </Text>
+        {selectedTags.map((tag) => (
+          console.log(tag),
+          <Text key={tag} style={styles.selectedTag}>{tag}</Text>
+        ))}
       </View>
 
 
-
-
-      <Button title="Next" onPress={() => navigation.navigate('TagList')} />
+      <Button title="Check" onPress={() => navigation.navigate('Details')} />
 
     </View>
   );
@@ -123,4 +131,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ObjectList;
+export default TagList;
