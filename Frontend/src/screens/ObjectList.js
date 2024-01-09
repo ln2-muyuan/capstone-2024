@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Button, ScrollView } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
 
 
 
@@ -67,9 +67,10 @@ const ObjectList = ({ navigation }) => {
 
 
 
-
-      <Button title="Next" onPress={() => navigation.navigate('TagList')} />
-
+        
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('TagList')}>
+        <Text style={styles.buttonText}>Next</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -106,13 +107,17 @@ const styles = StyleSheet.create({
   itemText: {
     fontSize: 16,
   },
+
+  
   selectedPatientIDContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 8,
+    marginVertical: 16,
   },
   selectedPatientIDText: {
     fontWeight: 'bold',
+    color: '#333333',
+    padding: 6,
     marginRight: 8,
   },
   selectedTag: {
@@ -120,6 +125,19 @@ const styles = StyleSheet.create({
     padding: 6,
     marginRight: 4,
     borderRadius: 5,
+  },
+
+  button: {
+    backgroundColor: '#7FC7D9',
+    padding: 10,
+    marginHorizontal: 12,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 

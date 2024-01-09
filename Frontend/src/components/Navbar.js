@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Image, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const Navbar = () => {
@@ -10,10 +10,16 @@ const Navbar = () => {
 
     <View style={styles.navbar}>
       <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-        <Image source={require('../assets/navbar/home.png')} style={styles.buttonImage} />
+        <View style={styles.buttonContainer}>
+          <Image source={require('../assets/navbar/home.png')} style={styles.buttonImage} />
+          <Text style={styles.buttonText}>Home</Text>
+        </View>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-        <Image source={require('../assets/navbar/user.png')} style={styles.buttonImage} />
+        <View style={styles.buttonContainer}>
+          <Image source={require('../assets/navbar/user.png')} style={styles.buttonImage} />
+          <Text style={styles.buttonText}>Profile</Text>
+        </View>
       </TouchableOpacity>
     </View>
 
@@ -30,12 +36,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#eaeaea',
-    padding: 10
+    backgroundColor: '#DCF2F1',
+    padding: 10,
+    borderTopWidth: 1,
+    borderTopColor: '#C4C4C4',
   },
   buttonImage: {
-    width: 35,
-    height: 35,
+    width: 28,
+    height: 28,
+  },
+  buttonText: {
+    marginTop: 3,
+    fontSize: 12,
+    color: '#000',
+  },
+  buttonContainer: {
+    alignItems: 'center',
   },
 });
 

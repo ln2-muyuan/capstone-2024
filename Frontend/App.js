@@ -15,11 +15,11 @@ const App = () => {
   return (
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen options={{title:"Welcome "}} name="Home" component={Home} />
           <Stack.Screen name="ObjectList" component={ObjectList} />
           <Stack.Screen name="TagList" component={TagList} />
           <Stack.Screen name="Details" component={Details} />
-          <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen options={{ headerShown: false }} name="Profile" component={Profile} />
         </Stack.Navigator>
       </NavigationContainer>
   );

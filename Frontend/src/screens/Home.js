@@ -11,26 +11,26 @@ const Home = ({ navigation }) => {
         <View style={styles.container}>
         <View style={styles.row}>
             <TouchableOpacity style={styles.module} onPress={() => navigation.navigate('ObjectList')}>
-            <Text style={styles.moduleText}>功能1</Text>
+            <Text style={styles.moduleText}>Check{'\n'}Images</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.module}>
-            <Text style={styles.moduleText}>功能2</Text>
-            </TouchableOpacity>
-        </View>
-        <View style={styles.row}>
-            <TouchableOpacity style={styles.module}>
-            <Text style={styles.moduleText}>功能3</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.module}>
-            <Text style={styles.moduleText}>功能4</Text>
+            <Text style={styles.moduleText}>Manage{'\n'}Patients</Text>
             </TouchableOpacity>
         </View>
         <View style={styles.row}>
             <TouchableOpacity style={styles.module}>
-            <Text style={styles.moduleText}>功能5</Text>
+            <Text style={styles.moduleText}>Function 3</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.module}>
-            <Text style={styles.moduleText}>功能6</Text>
+            <Text style={styles.moduleText}>Function 4</Text>
+            </TouchableOpacity>
+        </View>
+        <View style={styles.row}>
+            <TouchableOpacity style={styles.module}>
+            <Text style={styles.moduleText}>Function 5</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.module}>
+            <Text style={styles.moduleText}>Function 6</Text>
             </TouchableOpacity>
         </View>
         </View>
@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    // backgroundColor: "#FBF9F1"
   },
   row: {
     flexDirection: 'row',
@@ -61,6 +62,8 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   moduleText: {
+    textAlign: 'center',
+    color: '#333333',
     fontSize: 18,
     fontWeight: 'bold',
   },
