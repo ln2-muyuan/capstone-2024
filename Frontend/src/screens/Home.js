@@ -13,7 +13,7 @@ const Home = ({ navigation }) => {
             <TouchableOpacity style={styles.module} onPress={() => navigation.navigate('ObjectList')}>
             <Text style={styles.moduleText}>Check{'\n'}Images</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.module}>
+            <TouchableOpacity style={styles.module} onPress={() => navigation.navigate('Manage')}>
             <Text style={styles.moduleText}>Manage{'\n'}Patients</Text>
             </TouchableOpacity>
         </View>

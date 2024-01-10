@@ -14,7 +14,7 @@ const Profile = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Profile Page</Text>
+      <Text style={styles.title}>Profile</Text>
       {isLoggedIn ? (
         <View>
           <Text>Welcome, {username}!</Text>
@@ -45,6 +45,7 @@ const styles = {
   },
   linkText: {
     textAlign: 'center',
+    fontSize: 16,
     color: '#0000EE',
     textDecorationLine: 'underline',
     marginTop: 10,
