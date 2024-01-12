@@ -4,8 +4,10 @@ const mongoDBUrl = "mongodb+srv://ln2:sgIuaEK3l0QMd9mD@cluster0.6cg0sja.mongodb.
 
 const connectToDB = async () => {
     try {
-        await mongoose.connect(mongoDBUrl, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB");
+        await mongoose.connect(mongoDBUrl, { dbName: "fyp" });
+        console.log("-----Connected to MongoDB-----");
+        console.log("-----Connected to MongoDB-----");
+        console.log("-----Connected to MongoDB-----");
     }
     catch (err) {
         console.log(err);

@@ -12,7 +12,5 @@ const port = 8800;
 app.listen(port);
 
 
-
-
-// const router = require("./routes/index.routes");
-// app.use('/', router)
+const router = require("./routes/index.route");
+app.use('/', router)
