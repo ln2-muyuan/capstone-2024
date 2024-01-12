@@ -7,6 +7,8 @@ import Profile from './src/screens/Profile';
 import Login from './src/screens/Login';
 import Register from './src/screens/Register';
 
+import Toast from 'react-native-toast-message';
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
@@ -25,8 +27,14 @@ const App = () => {
           <Stack.Screen options={{ headerShown: false }} name="Profile" component={Profile} />
           <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
           <Stack.Screen options={{ headerShown: false }} name="Register" component={Register} />
-          
+        
+
+
         </Stack.Navigator>
+
+
+        {/* REMEMBER TO ADD TOAST HERE */}
+        <Toast></Toast>
       </NavigationContainer>
   );
 }

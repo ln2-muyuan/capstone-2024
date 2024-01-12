@@ -6,14 +6,50 @@ import {
   View,
   TextInput,
 } from 'react-native';
-
 import {SafeAreaView} from 'react-native-safe-area-context';
+import axios from 'axios';
+import Toast from 'react-native-toast-message';
 
 
 const Register = ({navigation}) => {
-  const [username,setUsername] = useState('')
+  const [name,setName] = useState('')
   const [password,setPassword] = useState('')
   const [email,setEmail] = useState('')
+
+
+  const register = () => {
+    axios.post('http://10.0.2.2:8800/user/register', {
+      name: name,
+      password: password,
+      email: email
+    })
+    .then(function (response) {
+      navigation.navigate('Login')
+      Toast.show({
+        type: 'success',
+        position: 'top',
+        text1: 'Success',
+        text2: 'Account created successfully',
+        visibilityTime: 4000,
+        autoHide: true,
+        text1Style: { fontSize: 16, color: '#64CCC5' },
+        text2Style: { fontSize: 12, color: '#000000', fontStyle: 'italic' }, 
+      });
+    })
+    .catch(function (error) {
+      console.log(error.response.data);
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Error',
+        text2: error.response.data,
+        visibilityTime: 4000,
+        autoHide: true,
+        text1Style: { fontSize: 16, color: '#FF9843' },
+        text2Style: { fontSize: 12, color: '#000000', fontStyle: 'italic' }, 
+      });
+    });
+  }
 
 
 
@@ -27,14 +63,14 @@ const Register = ({navigation}) => {
         </View>
 
         <View style={styles.inputContainer}>
-          <TextInput placeholder="Username" onChangeText={(text) => setUsername(text) }/>
+          <TextInput placeholder="Username" onChangeText={(text) => setName(text) }/>
         </View>
 
         <View style={styles.inputContainer}>
           <TextInput placeholder="Password" secureTextEntry={true} onChangeText={(text) => setPassword(text)}/>
         </View>
 
-        <TouchableOpacity onPress={()=>{}} style={styles.registerButton}>
+        <TouchableOpacity onPress={register} style={styles.registerButton}>
           <Text style={{textAlign: 'center', color: '#fff', fontSize: 18}}>
             Register
           </Text>
