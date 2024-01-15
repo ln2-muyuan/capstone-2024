@@ -1,7 +1,7 @@
 const User = require('../models/user.model');
 
 exports.register = async function (req, res) {
-    console.log("Server received register request");
+    console.log("Server: received register request");
     let user = new User({
             name: req.body.name,
             email: req.body.email,
@@ -14,7 +14,7 @@ exports.register = async function (req, res) {
             return res.status(400).send("User already exists");
         }
         await user.save();
-        console.log("Server successfully saved user");
+        console.log("Server: successfully saved user");
         res.send("User created successfully");
     }
     catch (err) {

@@ -6,6 +6,7 @@ import {
   View,
   TextInput,
 } from 'react-native';
+import axios from 'axios';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 
@@ -15,9 +16,18 @@ const Login = ({navigation}) => {
 
 
   const handleLogin = () => {
-    console.log("email = ", email)
-    console.log("password = ", password)
-    navigation.navigate('Home')
+    axios.post('http://10.0.2.2:8800/user/login', {
+      password: password,
+      email: email
+    })
+    .then(function (response) {
+      // console.log("Response from server: ", response.data)
+      navigation.navigate('Home')
+    })
+    .catch(function (error) {
+      console.log("Response from server: ", error.response.data);
+    });
+
   }
 
   return (

@@ -8,9 +8,6 @@ const Profile = ({ navigation }) => {
 
   const isLoggedIn = false; 
 
-  const handleLoginPress = () => {
-    navigation.navigate('Login');
-  };
 
   return (
     <View style={styles.container}>
@@ -22,7 +19,7 @@ const Profile = ({ navigation }) => {
       ) : (
         <View>
           <Text>Please login or register to view your profile.</Text>
-          <TouchableOpacity onPress={handleLoginPress}>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
             <Text style={styles.linkText}>Login / Register</Text>
           </TouchableOpacity>
         </View>
