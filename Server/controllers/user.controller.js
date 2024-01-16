@@ -45,4 +45,27 @@ exports.login = async function (req, res) {
 }
 
 
-
+exports.addPatientToUser = async function (req, res) {
+    const patients = req.body.patients;
+    const email = req.body.email;
+    try {
+        const user = await User.findOne( {email: email} )
+        if (!user) {
+            return res.status(400).send("User not found");
+        }
+        // check whether it is already in the list
+        for (let i = 0; i < patients.length; i++) {
+            if (user.patientsID.includes(patients[i])) {
+                return res.status(400).send("Patient already added to the user");
+            }
+        }
+        user.patientsID.push(...patients);
+        await user.save();
+        console.log("Server: successfully saved patient");
+        res.send("Patient added successfully");
+    }
+    catch (err) {
+        console.log(err);
+        res.send("Adding patient failed");
+    }
+}

@@ -13,10 +13,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 
+import { Provider } from 'react-redux';
+import store from './src/store/store';
+
 
 
 const App = () => {
   return (
+
+    <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen options={{title:"Welcome "}} name="Home" component={Home} />
@@ -31,11 +36,10 @@ const App = () => {
 
 
         </Stack.Navigator>
-
-
         {/* REMEMBER TO ADD TOAST HERE */}
         <Toast></Toast>
       </NavigationContainer>
+    </Provider>
   );
 }
 

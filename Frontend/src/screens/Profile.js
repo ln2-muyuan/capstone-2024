@@ -1,20 +1,20 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Navbar from '../components/Navbar';
+import { useSelector } from 'react-redux';
+
 
 const Profile = ({ navigation }) => {
 
-
-
-  const isLoggedIn = false; 
-
+  const loggedIn = useSelector((state) => state.login.loggedIn);
+  const username = useSelector((state) => state.login.user?.username);
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Profile</Text>
-      {isLoggedIn ? (
+      {loggedIn ? (
         <View>
-          <Text>Welcome, {username}!</Text>
+          <Text>Welcome</Text>
         </View>
       ) : (
         <View>

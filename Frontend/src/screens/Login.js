@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  TextInput,
-} from 'react-native';
-import axios from 'axios';
+import { StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { login } from '../store/loginSlice';
+
 
 
 const Login = ({navigation}) => {
   const [email,setEmail] = useState('')
   const [password,setPassword] = useState('')
+
+  const dispatch = useDispatch();
 
 
   const handleLogin = () => {
@@ -22,6 +21,11 @@ const Login = ({navigation}) => {
     })
     .then(function (response) {
       // console.log("Response from server: ", response.data)
+      const user = {
+        email: email,
+        password: password
+      }
+      dispatch(login(user))
       navigation.navigate('Home')
     })
     .catch(function (error) {
