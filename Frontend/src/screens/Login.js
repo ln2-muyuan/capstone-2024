@@ -4,6 +4,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { login } from '../store/loginSlice';
+import { setPatient } from '../store/patientSlice';
 
 
 
@@ -15,23 +16,45 @@ const Login = ({navigation}) => {
 
 
   const handleLogin = () => {
-    axios.post('http://10.0.2.2:8800/user/login', {
-      password: password,
-      email: email
-    })
-    .then(function (response) {
-      // console.log("Response from server: ", response.data)
-      const user = {
-        email: email,
-        password: password
-      }
-      dispatch(login(user))
-      navigation.navigate('Home')
-    })
-    .catch(function (error) {
-      console.log("Response from server: ", error.response.data);
-    });
+    try {
+      axios.post('http://10.0.2.2:8800/user/login', {
+        password: password,
+        email: email
+      })
+      .then(function (response) {
+        // console.log("Response from server: ", response.data)
+        const user = {
+          email: email,
+          password: password
+        }
+        dispatch(login(user))
+      })
+      .catch(function (error) {
+        console.log("Response from server: ", error.response.data);
+      });
 
+
+      axios.get('http://10.0.2.2:8800/user/getPatients', {
+        params: {
+          email: email
+        }
+      })
+      .then(function (response) {
+        const patients = response.data
+        console.log("Response from server: ", patients)
+        dispatch(setPatient(patients))
+      })
+      .catch(function (error) {
+        console.log("Response from server: ", error.response.data);
+      });
+
+      navigation.navigate('Profile')
+  
+    }
+    catch (err) {
+      console.log(err);
+    }
+    
   }
 
   return (

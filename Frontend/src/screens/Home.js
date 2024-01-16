@@ -1,19 +1,23 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
-
-import Navbar from '../components/Navbar';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Navbar from '../components/Navbar';
+import { useSelector } from 'react-redux';
+
 
 const Home = ({ navigation }) => {
+
+  const loggedIn = useSelector((state) => state.login.loggedIn);
+
   return (
     <SafeAreaView style={{height: "100%"}}>
         <View style={{flexGrow: 0.90}}>
         <View style={styles.container}>
         <View style={styles.row}>
-            <TouchableOpacity style={styles.module} onPress={() => navigation.navigate('ObjectList')}>
+            <TouchableOpacity style={styles.module} onPress={() => { loggedIn ? navigation.navigate('ObjectList') : console.log("Not logged in")}}>
             <Text style={styles.moduleText}>Check{'\n'}Images</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.module} onPress={() => navigation.navigate('Manage')}>
+            <TouchableOpacity style={styles.module} onPress={() => { loggedIn ? navigation.navigate('Manage') : console.log("Not logged in")}}>
             <Text style={styles.moduleText}>Manage{'\n'}Patients</Text>
             </TouchableOpacity>
         </View>

@@ -1,6 +1,5 @@
 const Diagnosis = require("../models/diagnosis.model");
 
-
 exports.addDiagnosis = async function (req, res) {
     let diagnosis = new Diagnosis({
             diagnosisID: req.body.diagnosisID,

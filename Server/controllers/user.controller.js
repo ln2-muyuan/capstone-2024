@@ -1,4 +1,5 @@
 const User = require('../models/user.model');
+const Patient = require('../models/patient.model');
 
 exports.register = async function (req, res) {
     console.log("Server: received register request");
@@ -67,5 +68,31 @@ exports.addPatientToUser = async function (req, res) {
     catch (err) {
         console.log(err);
         res.send("Adding patient failed");
+    }
+}
+
+exports.getPatients = async function (req, res) {
+    const email = req.query.email;
+    try {
+        const user = await User.findOne( {email: email} )
+        const patientsID = user.patientsID;
+        console.log(patientsID)
+        let patientsData = []
+        for (let i = 0; i < patientsID.length; i++) {
+            console.log(patientsID[i])
+            const patient = await Patient.findOne( {patientID: patientsID[i]} )
+            if (!patient) {
+                return res.status(400).send("Patient not found");
+            }
+            patientsData.push({
+                name: patient.name,
+                patientID: patient.patientID,
+            })
+        }
+        res.send(patientsData);
+    }
+    catch (err) {
+        console.log(err);
+        res.send("Server: Getting patients failed");
     }
 }

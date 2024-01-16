@@ -1,18 +1,28 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
-
+import { useSelector } from 'react-redux';
 
 
 const ObjectList = ({ navigation }) => {
   const [selectedPatientID, setselectedPatientID] = useState('');
 
-  const patientList = [
-    { id: 1, name: 'PatientA-673415', tags: ['标签1', '标签2'] },
-    { id: 2, name: 'PatientB-375080', tags: ['标签2', '标签3'] },
-    { id: 3, name: 'PatientC-751391', tags: ['标签2', '标签3'] },
-    { id: 4, name: 'PatientD-769546', tags: ['标签2', '标签3'] },
-    { id: 5, name: 'PatientE-134682', tags: ['标签2', '标签3'] },
-  ];
+
+  const patient = useSelector((state) => state.patient.patient);
+
+  const patientList = patient.map((patient, index) => {
+    return {
+      id: index + 1,
+      name: patient.name + '-' + patient.patientID,
+    };
+  });
+
+  // const patientList = [
+  //   { id: 1, name: 'PatientA-673415', tags: ['标签1', '标签2'] },
+  //   { id: 2, name: 'PatientB-375080', tags: ['标签2', '标签3'] },
+  //   { id: 3, name: 'PatientC-751391', tags: ['标签2', '标签3'] },
+  //   { id: 4, name: 'PatientD-769546', tags: ['标签2', '标签3'] },
+  //   { id: 5, name: 'PatientE-134682', tags: ['标签2', '标签3'] },
+  // ];
 
   const handlePatientSelection = (tag) => {
     setselectedPatientID(tag);
