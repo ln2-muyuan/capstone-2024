@@ -31,15 +31,35 @@ exports.addDiagnosisToPatient = async function (req, res) {
         if (!patient) {
             return res.status(400).send("Patient not found");
         }
-        // check whether it is already in the list
-        if (patient.diagnosisID.includes(diagnosisID)) {
-            return res.status(400).send("Diagnosis already added to the patient");
+        
+        // check whether diagnosisID already exists in patient.diagnosisID
+        for (let i = 0; i < diagnosisID.length; i++) {
+            if (patient.diagnosisID.includes(diagnosisID[i])) {
+                return res.status(400).send("Diagnosis already exists");
+            }
         }
         patient.diagnosisID.push(...diagnosisID);
         await patient.save();
+        res.send("Diagnosis added successfully");
     }
     catch (err) {
         console.log(err);
         res.send("Patient update failed");
+    }
+}
+
+exports.getDiagnosis = async function (req, res) {
+    const patientID = req.query.patientID;
+    try {
+        const patient = await Patient.findOne( {patientID: patientID} )
+        if (!patient) {
+            return res.status(400).send("Patient not found");
+        }
+        diagnosisID = patient.diagnosisID;
+        res.send(diagnosisID);
+    }
+    catch (err) {
+        console.log(err);
+        res.send("Server: Getting diagnosis failed");
     }
 }

@@ -48,6 +48,8 @@ const Login = ({navigation}) => {
         console.log("Response from server: ", error.response.data);
       });
 
+
+
       navigation.navigate('Profile')
   
     }

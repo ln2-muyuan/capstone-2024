@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 const ObjectList = ({ navigation }) => {
   const [selectedPatientID, setselectedPatientID] = useState('');
 
-
   const patient = useSelector((state) => state.patient.patient);
 
   const patientList = patient.map((patient, index) => {
@@ -15,6 +14,9 @@ const ObjectList = ({ navigation }) => {
       name: patient.name + '-' + patient.patientID,
     };
   });
+
+  const [diagnosisID, setDiagnosisID] = useState([]);
+  const [selectedDiagnosisID, setselectedDiagnosisID] = useState('');
 
   // const patientList = [
   //   { id: 1, name: 'PatientA-673415', tags: ['标签1', '标签2'] },
@@ -26,6 +28,10 @@ const ObjectList = ({ navigation }) => {
 
   const handlePatientSelection = (tag) => {
     setselectedPatientID(tag);
+    const selectedPatient = patient.find((patient) => patient.name + '-' + patient.patientID === tag);
+    if (selectedPatient) {
+      setDiagnosisID(selectedPatient.diagnosisID);
+    }
   };
 
   const renderPatients = ({ item }) => {
@@ -41,6 +47,23 @@ const ObjectList = ({ navigation }) => {
   };
 
 
+
+  const handleDiagnosisSelection = (tag) => {
+    console.log(tag+' is selected');
+    setselectedDiagnosisID(tag);
+  };
+
+  const renderDiagnosis = ({ item }) => {
+    const isSelected = selectedDiagnosisID === item;
+    return (
+      <TouchableOpacity
+        style={[styles.item, isSelected && styles.selectedItem]}
+        onPress={() => handleDiagnosisSelection(item)}
+      >
+        <Text style={styles.itemText}>{item}</Text>
+      </TouchableOpacity>
+    );
+  }
 
 
 
@@ -63,17 +86,34 @@ const ObjectList = ({ navigation }) => {
         contentContainerStyle={styles.listContainer}
       />
 
+      <Text style={styles.title}>Select patient's diagnosis</Text>
+      {diagnosisID.length > 0 && (
+        <FlatList
+          style={{ marginTop: 10 }}
+          data={diagnosisID}
+          renderItem={renderDiagnosis}
+          keyExtractor={(item) => item}
+          contentContainerStyle={styles.listContainer}
+        />
+      )}
 
 
 
 
-
-      <View style={styles.selectedPatientIDContainer}>
+      
+      {/* <View style={styles.selectedPatientIDContainer}>
         <Text style={styles.selectedPatientIDText}>Selected patient ID: </Text>
         {selectedPatientID && (
         <Text style={styles.selectedTag}>{selectedPatientID}</Text>
         )}
       </View>
+
+      <View style={styles.selectedPatientIDContainer}>
+        <Text style={styles.selectedPatientIDText}>Selected diagnosis ID: </Text>
+        {selectedDiagnosisID && (
+        <Text style={styles.selectedTag}>{selectedDiagnosisID}</Text>
+        )}
+      </View> */}
 
 
 
@@ -122,7 +162,7 @@ const styles = StyleSheet.create({
   selectedPatientIDContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 16,
+    marginVertical: 6,
   },
   selectedPatientIDText: {
     fontWeight: 'bold',

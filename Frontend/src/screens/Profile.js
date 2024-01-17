@@ -1,13 +1,15 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Navbar from '../components/Navbar';
-import { useSelector } from 'react-redux';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../store/loginSlice';
 
 const Profile = ({ navigation }) => {
 
   const loggedIn = useSelector((state) => state.login.loggedIn);
   const username = useSelector((state) => state.login.user?.username);
+  
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
@@ -15,6 +17,9 @@ const Profile = ({ navigation }) => {
       {loggedIn ? (
         <View>
           <Text>Welcome</Text>
+          <TouchableOpacity onPress={() => dispatch(logout())}>
+            <Text style={styles.linkText}>Logout</Text>
+          </TouchableOpacity>
         </View>
       ) : (
         <View>
