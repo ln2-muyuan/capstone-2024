@@ -31,6 +31,7 @@ const ObjectList = ({ navigation }) => {
     const selectedPatient = patient.find((patient) => patient.name + '-' + patient.patientID === tag);
     if (selectedPatient) {
       setDiagnosisID(selectedPatient.diagnosisID);
+      setselectedDiagnosisID('');
     }
   };
 
@@ -49,7 +50,6 @@ const ObjectList = ({ navigation }) => {
 
 
   const handleDiagnosisSelection = (tag) => {
-    console.log(tag+' is selected');
     setselectedDiagnosisID(tag);
   };
 
@@ -77,7 +77,7 @@ const ObjectList = ({ navigation }) => {
   return (
     <View style={styles.container}>
 
-      <Text style={styles.title}>Select recent patient</Text>
+      <Text style={styles.title}>Select recent patient:</Text>
       <FlatList
         style={{ marginBottom: 10 }}
         data={patientList}
@@ -86,15 +86,17 @@ const ObjectList = ({ navigation }) => {
         contentContainerStyle={styles.listContainer}
       />
 
-      <Text style={styles.title}>Select patient's diagnosis</Text>
-      {diagnosisID.length > 0 && (
-        <FlatList
-          style={{ marginTop: 10 }}
-          data={diagnosisID}
-          renderItem={renderDiagnosis}
-          keyExtractor={(item) => item}
-          contentContainerStyle={styles.listContainer}
-        />
+      <Text style={styles.title}>Select the patient's diagnosis ID:</Text>
+      {diagnosisID.length > 0 ? (
+             <FlatList
+             style={{ marginBottom: 10 }}
+             data={diagnosisID}
+             renderItem={renderDiagnosis}
+             keyExtractor={(item) => item}
+             contentContainerStyle={styles.listContainer}
+           />
+      ) : (
+        <Text style={{ fontSize: 16, marginBottom: 12}}>No diagnosis ID for the patient</Text>
       )}
 
 
@@ -118,7 +120,19 @@ const ObjectList = ({ navigation }) => {
 
 
         
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('TagList')}>
+      <TouchableOpacity style={styles.button} onPress={() => {
+        // check whether diagnosisID is selected
+        if (selectedDiagnosisID === '') {
+          alert('Please select a diagnosis');
+          return;
+        }
+
+
+        console.log('selectedPatientID: '+selectedPatientID);
+        console.log('selectedDiagnosisID: '+selectedDiagnosisID);
+        navigation.navigate('TagList', { selectedPatientID, selectedDiagnosisID });
+      }
+      }>
         <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
     </View>
@@ -139,11 +153,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#333333',
-    marginBottom: 8,
+    marginBottom: 6,
   },
 
   listContainer: {
-    paddingBottom: 16,
+    // 拉到最底下的边距
+    paddingBottom: 2,
   },
   item: {
     padding: 10,
@@ -159,6 +174,7 @@ const styles = StyleSheet.create({
   },
 
   
+  // not in use
   selectedPatientIDContainer: {
     flexDirection: 'row',
     alignItems: 'center',

@@ -5,35 +5,32 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, Button, ScrollView 
 
 
 
-const TagList = ({ navigation }) => {
+const TagList = ({ route }) => {
 
+  const { selectedPatientID, selectedDiagnosisID } = route.params;
 
+  console.log("Taglist selectedPatientID:" + selectedPatientID);
+  console.log("TagList selectedDiagnosisID:" + selectedDiagnosisID);
 
-
-
-  const [selectedTags, setselectedTags] = useState([]);
+  const [selectedTags, setselectedTags] = useState('');
   
   const tagsList = [
-    { id: 1, name: 'TIGC', tags: ['标签1'] },
-    { id: 2, name: 'T1S', tags: ['标签2'] },
-    { id: 3, name: 'T1SC', tags: ['标签2'] },
-    { id: 4, name: 'T1ZC', tags: ['标签2'] },
-    { id: 5, name: 'T2S', tags: ['标签2'] },
+    { id: 1, name: 'TIGC' },
+    { id: 2, name: 'T1S' },
+    { id: 3, name: 'T1SC' },
+    { id: 4, name: 'T1ZC' },
+    { id: 5, name: 'T2S' },
+    { id: 6, name: 'T2Z' },
+    { id: 7, name: 'YZ' },
   ];
 
-  console.log(selectedTags);
 
   const handleTagsSelection = (tag) => {
-    if (selectedTags.includes(tag)) {
-      setselectedTags(selectedTags.filter((selectedTag) => selectedTag !== tag));
-    } else {
-      setselectedTags([...selectedTags, tag]);
-    }
-    console.log(selectedTags);
+    setselectedTags(tag);
   };
 
   const renderTags = ({ item }) => {
-    const isSelected = selectedTags.includes(item.name);
+    const isSelected = selectedTags === item.name;
     return (
       <TouchableOpacity
         style={[styles.item, isSelected && styles.selectedItem]}
@@ -67,13 +64,13 @@ const TagList = ({ navigation }) => {
 
 
 
-      <View style={styles.selectedPatientIDContainer}>
+      {/* <View style={styles.selectedPatientIDContainer}>
         <Text style={styles.selectedPatientIDText}>Selected tags: </Text>
         {selectedTags.map((tag) => (
           console.log(tag),
           <Text key={tag} style={styles.selectedTag}>{tag}</Text>
         ))}
-      </View>
+      </View> */}
 
 
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Details')}>
@@ -102,15 +99,25 @@ const styles = StyleSheet.create({
 
   listContainer: {
     paddingBottom: 16,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+
+    alignItems: 'flex-start',
   },
   item: {
-    padding: 10,
+
+    flexBasis: 'auto',
+    marginHorizontal: 7,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
     backgroundColor: '#f0f0f0',
     marginBottom: 8,
     borderRadius: 5,
   },
   selectedItem: {
     backgroundColor: '#a0a0a0',
+
+    flexBasis: 'auto',
   },
   itemText: {
     fontSize: 16,
