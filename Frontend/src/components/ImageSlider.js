@@ -40,7 +40,7 @@ import Slider from '@react-native-community/slider';
           />
         </View>
         <Slider
-          style={{ marginHorizontal: 50, marginTop: 20}}
+          style={{ marginHorizontal: 50, marginTop: 20, marginBottom: 50 }}
           minimumValue={0}
           maximumValue={1}
           value={sliderValue}

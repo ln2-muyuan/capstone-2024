@@ -96,7 +96,7 @@ const ObjectList = ({ navigation }) => {
              contentContainerStyle={styles.listContainer}
            />
       ) : (
-        <Text style={{ fontSize: 16, marginBottom: 12}}>No diagnosis ID for the patient</Text>
+        <Text style={{ fontSize: 16, marginBottom: 12, marginLeft: 12}}>No diagnosis ID for the patient</Text>
       )}
 
 
@@ -154,6 +154,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333333',
     marginBottom: 6,
+    marginLeft: 12,
   },
 
   listContainer: {
