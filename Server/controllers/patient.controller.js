@@ -31,7 +31,6 @@ exports.addDiagnosisToPatient = async function (req, res) {
         if (!patient) {
             return res.status(400).send("Patient not found");
         }
-        
         // check whether diagnosisID already exists in patient.diagnosisID
         for (let i = 0; i < diagnosisID.length; i++) {
             if (patient.diagnosisID.includes(diagnosisID[i])) {

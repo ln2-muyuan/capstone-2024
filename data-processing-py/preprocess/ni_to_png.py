@@ -20,3 +20,5 @@ for i in range(data.shape[2]):
     output_file = os.path.join(output_dir, f'slice_{i}.png')
     image.save(output_file)
     print(f'Saved slice {i} as {output_file}')
+
+

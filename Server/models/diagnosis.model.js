@@ -4,11 +4,28 @@ const diagnosisSchema = new mongoose.Schema({
     diagnosisID: {
         type: Number,
         required: true,
-        unique: true
+        unique: false
+    },
+    tag: {
+        type: String,
+        required: true,
+        unique: false
     },
     diagnosisImage: {
+        type: [Buffer],
+        required: false
+    },
+    diagnosisImageResNet: {
         type: String,
-        required: true
+        required: false
+    },
+    diagnosisImageUNet: {
+        type: String,
+        required: false
+    },
+    diagnosisImageTransUNet: {
+        type: String,
+        required: false
     },
 });
 
