@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Button, ScrollView, Image, ScrollViewComponent } from 'react-native';
 import ImageSlider from '../components/ImageSlider';
+import { useSelector } from 'react-redux';
 
 
 const TagList = ({ route, navigation }) => {
 
   const { selectedPatientID, selectedDiagnosisID } = route.params;
 
-  console.log("Taglist selectedPatientID:" + selectedPatientID);
-  console.log("TagList selectedDiagnosisID:" + selectedDiagnosisID);
+  console.log("Taglist selectedPatientID: " + selectedPatientID);
+  console.log("TagList selectedDiagnosisID: " + selectedDiagnosisID);
 
   const [selectedTags, setselectedTags] = useState('');
   
@@ -21,7 +22,6 @@ const TagList = ({ route, navigation }) => {
     { id: 6, name: 'T2Z' },
     { id: 7, name: 'YZ' },
   ];
-
 
   const handleTagsSelection = (tag) => {
     setselectedTags(tag);
@@ -38,6 +38,8 @@ const TagList = ({ route, navigation }) => {
       </TouchableOpacity>
     );
   };
+
+
 
 
   const [selectedModel, setselectedModel] = useState('');
@@ -80,8 +82,10 @@ const TagList = ({ route, navigation }) => {
     setShowSlider(true);
   };
 
-  // FlatList放在ScrollView里会有警告
 
+ 
+
+  // FlatList放在ScrollView里会有警告
   return (
     <ScrollView style={styles.container}>
 
@@ -116,10 +120,10 @@ const TagList = ({ route, navigation }) => {
         </TouchableOpacity>
 
       </View>
-      
+
     
       {showSlider && (
-        <ImageSlider />
+        <ImageSlider diagnosisID={selectedDiagnosisID} tag={selectedTags} model={selectedModel} />
       )}
 
 

@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { login } from '../store/loginSlice';
 import { setPatient } from '../store/patientSlice';
-
+import { setDiag } from '../store/diagSlice';
 
 
 const Login = ({navigation}) => {
@@ -47,7 +47,6 @@ const Login = ({navigation}) => {
       .catch(function (error) {
         console.log("Response from server: ", error.response.data);
       });
-
 
 
       navigation.navigate('Profile')

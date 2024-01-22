@@ -1,4 +1,5 @@
 const Diagnosis = require("../models/diagnosis.model");
+const User = require("../models/user.model");
 
 exports.addDiagnosis = async function (req, res) {
     let diagnosis = new Diagnosis({
@@ -8,9 +9,14 @@ exports.addDiagnosis = async function (req, res) {
         }
     );
     try {
-        const diagnosis = await Diagnosis.findOne({ diagnosisID: req.body.diagnosisID });
-        diagnosis.diagnosisImage.push(...req.body.diagnosisImage);
-        await diagnosis.save();
+        const existingDiagnosis = await Diagnosis.findOne({ diagnosisID: req.body.diagnosisID });
+        if (!existingDiagnosis) {
+            await diagnosis.save();
+        }
+        else {
+            existingDiagnosis.diagnosisImage.push(...req.body.diagnosisImage);
+            await existingDiagnosis.save();
+        }
         console.log("Server: successfully saved diagnosis");
         res.send("Diagnosis created successfully");
     }
@@ -28,6 +34,7 @@ exports.getDiagnosis = async function (req, res) {
         if (!diagnosis) {
             return res.status(400).send("Diagnosis not found");
         }
+        console.log("Server: successfully retrieved diagnosis");
         res.send(diagnosis);
     }
     catch (err) {
@@ -35,3 +42,4 @@ exports.getDiagnosis = async function (req, res) {
         res.send("Diagnosis retrieval failed");
     }
 }
+

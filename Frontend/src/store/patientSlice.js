@@ -8,6 +8,9 @@ export const patientSlice = createSlice({
     reducers: {
         setPatient: (state, action) => {
         state.patient = action.payload;
+        // 注意打印方式
+        console.log("Redux patient: ", state.patient);
+        console.log("Redux patient: ", state.patient[0].diagnosisID);
         },
     },
 });

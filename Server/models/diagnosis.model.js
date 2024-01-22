@@ -12,18 +12,18 @@ const diagnosisSchema = new mongoose.Schema({
         unique: false
     },
     diagnosisImage: {
-        type: [Buffer],
+        type: [String],
         required: false
     },
-    diagnosisImageResNet: {
+    diagnosisImageResNetTotalMask: {
         type: String,
         required: false
     },
-    diagnosisImageUNet: {
+    diagnosisImageUNetTotalMask: {
         type: String,
         required: false
     },
-    diagnosisImageTransUNet: {
+    diagnosisImageTransUNetTotalMask: {
         type: String,
         required: false
     },

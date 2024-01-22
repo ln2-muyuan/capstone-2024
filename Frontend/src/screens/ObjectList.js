@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
 import { useSelector } from 'react-redux';
-
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setDiag } from '../store/diagSlice';
 
 const ObjectList = ({ navigation }) => {
   const [selectedPatientID, setselectedPatientID] = useState('');
 
+
+  // 但在redux外面是这样子读取的
   const patient = useSelector((state) => state.patient.patient);
+  console.log("ObjectList patient: ", patient)
 
   const patientList = patient.map((patient, index) => {
     return {
@@ -67,10 +72,39 @@ const ObjectList = ({ navigation }) => {
 
 
 
+  const dispatch = useDispatch();
+  
+  const handleNext = () => {
+      // check whether diagnosisID is selected
+      if (selectedDiagnosisID === '') {
+      alert('Please select a diagnosis');
+      return;
+    }
+    console.log('selectedPatientID: '+selectedPatientID);
+    console.log('selectedDiagnosisID: '+selectedDiagnosisID);
+    
 
-
-
-
+    // 待调整参数
+    axios.get('http://10.0.2.2:8800/diagnosis/getDiagnosis', {
+      params: {
+        diagnosisID: 20210119001723
+      }
+    })
+    .then(function (response) {
+      const diagnosis = response.data;
+      console.log("length of diagnosis: ", Object.keys(diagnosis).length);
+      dispatch(setDiag(diagnosis));
+      navigation.navigate('TagList', { selectedPatientID, selectedDiagnosisID });
+      })
+    .catch(function (error) {
+      if (error.response && error.response.data) {
+        console.log("Response from server: ", error.response.data);
+    } else {
+        console.log("Error occurred: ", error);
+    }
+  });
+  
+}
 
 
 
@@ -120,19 +154,7 @@ const ObjectList = ({ navigation }) => {
 
 
         
-      <TouchableOpacity style={styles.button} onPress={() => {
-        // check whether diagnosisID is selected
-        if (selectedDiagnosisID === '') {
-          alert('Please select a diagnosis');
-          return;
-        }
-
-
-        console.log('selectedPatientID: '+selectedPatientID);
-        console.log('selectedDiagnosisID: '+selectedDiagnosisID);
-        navigation.navigate('TagList', { selectedPatientID, selectedDiagnosisID });
-      }
-      }>
+      <TouchableOpacity style={styles.button} onPress={handleNext}>
         <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
     </View>
