@@ -75,6 +75,11 @@ const ObjectList = ({ navigation }) => {
   const dispatch = useDispatch();
   
   const handleNext = () => {
+      if  (diagnosisID.length === 0) {
+        alert('No diagnosis ID for the patient');
+        return;
+      }
+
       // check whether diagnosisID is selected
       if (selectedDiagnosisID === '') {
       alert('Please select a diagnosis');
@@ -87,7 +92,7 @@ const ObjectList = ({ navigation }) => {
     // 待调整参数
     axios.get('http://10.0.2.2:8800/diagnosis/getDiagnosis', {
       params: {
-        diagnosisID: 20210119001723
+        diagnosisID: selectedDiagnosisID
       }
     })
     .then(function (response) {
@@ -98,6 +103,7 @@ const ObjectList = ({ navigation }) => {
       })
     .catch(function (error) {
       if (error.response && error.response.data) {
+        alert(error.response.data);
         console.log("Response from server: ", error.response.data);
     } else {
         console.log("Error occurred: ", error);

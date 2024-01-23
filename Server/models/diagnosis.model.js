@@ -1,18 +1,13 @@
 const mongoose = require('mongoose');
 
+
 const diagnosisSchema = new mongoose.Schema({
     diagnosisID: {
         type: Number,
         required: true,
-        unique: false
-    },
-    tag: {
-        type: String,
-        required: true,
-        unique: false
     },
     diagnosisImage: {
-        type: [String],
+        type: [Object],
         required: false
     },
     diagnosisImageResNetTotalMask: {

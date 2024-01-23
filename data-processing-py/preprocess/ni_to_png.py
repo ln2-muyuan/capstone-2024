@@ -3,13 +3,14 @@ import nibabel as nib
 import numpy as np
 from PIL import Image
 
-
-nii_file = '20210119001723/T1GC.nii'
+current_dir = os.getcwd()
+parent_dir = os.path.dirname(current_dir)
+nii_file = os.path.join(parent_dir, 'input/673415/20210119001723/T1S.nii')
 nii_img = nib.load(nii_file)
 data = nii_img.get_fdata()
 
 
-output_dir = 'output/20210119001723/T1GC_png_slice'
+output_dir = os.path.join(parent_dir, 'output/673415/20210119001723/T1S/T1S_png_slice')
 os.makedirs(output_dir, exist_ok=True)
 
 

@@ -21,6 +21,8 @@ const TagList = ({ route, navigation }) => {
     { id: 5, name: 'T2S' },
     { id: 6, name: 'T2Z' },
     { id: 7, name: 'YZ' },
+    { id: 8, name: 'Tumor' },
+    { id: 9, name: 'Total' },
   ];
 
   const handleTagsSelection = (tag) => {
@@ -82,6 +84,17 @@ const TagList = ({ route, navigation }) => {
     setShowSlider(true);
   };
 
+  const handleRunPress = () => {
+    if (selectedTags === '') {
+      alert('Please select a tag!');
+      return;
+    }
+    if (selectedModel === '') {
+      alert('Please select a model!');
+      return;
+    }
+    navigation.navigate('RunModel', { selectedPatientID: selectedPatientID, selectedDiagnosisID: selectedDiagnosisID, selectedTags: selectedTags, selectedModel: selectedModel });
+  };
 
  
 
@@ -116,7 +129,10 @@ const TagList = ({ route, navigation }) => {
         />
 
         <TouchableOpacity style={styles.button} onPress={() => handleNextPress()}>
-          <Text style={styles.buttonText}>Next</Text>
+          <Text style={styles.buttonText}>Overview</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => handleRunPress()}>
+          <Text style={styles.buttonText}>Run Model</Text>
         </TouchableOpacity>
 
       </View>
@@ -200,7 +216,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#7FC7D9',
     padding: 10,
-    marginTop: 0,
+    marginVertical: 8,
     marginHorizontal: 12,
     borderRadius: 5,
     alignItems: 'center',

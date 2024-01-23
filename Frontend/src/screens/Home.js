@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 const Home = ({ navigation }) => {
 
   const loggedIn = useSelector((state) => state.login.loggedIn);
+
   console.log("Home loggedIn: ", loggedIn)
   // const diagnosis = useSelector((state) => state.diagnosis.diagnosis);
 

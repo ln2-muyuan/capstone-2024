@@ -7,10 +7,6 @@ from matplotlib.colors import ListedColormap
 with open('img_pred_pair.pkl', 'rb') as f:
     data = pickle.load(f)
 
-
-
-
-
 image_data = data['image']
 prediction_data = data['prediction']
 path_image_data = data['path_image']

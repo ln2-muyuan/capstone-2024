@@ -1,11 +1,12 @@
 import Home from './src/screens/Home';
 import ObjectList from './src/screens/ObjectList';
 import TagList from './src/screens/TagList';
-import Details from './src/screens/Details';
 import Manage from './src/screens/Manage';
 import Profile from './src/screens/Profile';
 import Login from './src/screens/Login';
 import Register from './src/screens/Register';
+import RunModel from './src/screens/RunModel';
+
 
 import Toast from 'react-native-toast-message';
 
@@ -18,6 +19,7 @@ import store from './src/store/store';
 
 
 
+
 const App = () => {
   return (
 
@@ -27,7 +29,7 @@ const App = () => {
           <Stack.Screen options={{title:"Welcome "}} name="Home" component={Home} />
           <Stack.Screen name="ObjectList" component={ObjectList} />
           <Stack.Screen name="TagList" component={TagList} />
-          <Stack.Screen name="Details" component={Details} />
+          <Stack.Screen name="RunModel" component={RunModel} />
           <Stack.Screen name="Manage" component={Manage} />
           <Stack.Screen options={{ headerShown: false }} name="Profile" component={Profile} />
           <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />

@@ -2,8 +2,9 @@ import os
 import base64
 
 current_dir = os.getcwd()
-input_dir = os.path.join(current_dir, 'output/20210119001723/T1GC_png_slice')
-output_base64_dir = 'output/20210119001723/T1GC_base64_slice'
+parent_dir = os.path.dirname(current_dir)
+input_dir = os.path.join(parent_dir, 'output/673415/20210119001723/T1S/T1S_png_slice')
+output_base64_dir = os.path.join(parent_dir, 'output/673415/20210119001723/T1S/T1S_base64_slice')
 os.makedirs(output_base64_dir, exist_ok=True)  # 创建输出文件夹
 
 

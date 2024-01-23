@@ -4,7 +4,6 @@ const User = require("../models/user.model");
 exports.addDiagnosis = async function (req, res) {
     let diagnosis = new Diagnosis({
             diagnosisID: req.body.diagnosisID,
-            tag: req.body.tag,
             diagnosisImage: req.body.diagnosisImage
         }
     );
@@ -12,13 +11,24 @@ exports.addDiagnosis = async function (req, res) {
         const existingDiagnosis = await Diagnosis.findOne({ diagnosisID: req.body.diagnosisID });
         if (!existingDiagnosis) {
             await diagnosis.save();
+            console.log("Server: successfully saved diagnosis");
+            res.send("Diagnosis created successfully");
         }
         else {
-            existingDiagnosis.diagnosisImage.push(...req.body.diagnosisImage);
+            // check whether tag has already been added
+            for (let i = 0; i < existingDiagnosis.diagnosisImage.length; i++) {
+                if (existingDiagnosis.diagnosisImage[i].tag === req.body.diagnosisImage.tag) {
+                    return res.status(400).send("The tag has already been added");
+                }
+            }
+            // 这里不用existingDiagnosis.diagnosisImage.push(...req.body.diagnosisImage);
+            existingDiagnosis.diagnosisImage.push(req.body.diagnosisImage);
+            // 记得保存！！！
             await existingDiagnosis.save();
+            console.log("Server: successfully added diagnosisImage");
+            res.send("DiagnosisImage added successfully");
         }
-        console.log("Server: successfully saved diagnosis");
-        res.send("Diagnosis created successfully");
+
     }
     catch (err) {
         console.log(err);

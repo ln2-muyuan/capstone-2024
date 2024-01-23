@@ -29,6 +29,7 @@ exports.login = async function (req, res) {
     const password = req.body.password;
     try {
         const user = await User.findOne( {email: email} )
+        const userName = user.name;
         if (!user) {
             return res.status(400).send("User not found");
         }
@@ -36,7 +37,7 @@ exports.login = async function (req, res) {
             return res.status(400).send("Password incorrect");
         }
         else {
-            res.send("Login successful");
+            res.send(userName);
         }
     }
     catch (err) {

@@ -7,7 +7,7 @@ import { logout } from '../store/loginSlice';
 const Profile = ({ navigation }) => {
 
   const loggedIn = useSelector((state) => state.login.loggedIn);
-  const username = useSelector((state) => state.login.user?.username);
+  const user = useSelector((state) => state.login.user);
   
   const dispatch = useDispatch();
 
@@ -16,7 +16,7 @@ const Profile = ({ navigation }) => {
       <Text style={styles.title}>Profile</Text>
       {loggedIn ? (
         <View>
-          <Text>Welcome</Text>
+          <Text>Welcome {user.name}</Text>
           <TouchableOpacity onPress={() => dispatch(logout())}>
             <Text style={styles.linkText}>Logout</Text>
           </TouchableOpacity>

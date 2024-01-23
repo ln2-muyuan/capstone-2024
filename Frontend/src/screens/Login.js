@@ -5,7 +5,6 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { login } from '../store/loginSlice';
 import { setPatient } from '../store/patientSlice';
-import { setDiag } from '../store/diagSlice';
 
 
 const Login = ({navigation}) => {
@@ -13,7 +12,6 @@ const Login = ({navigation}) => {
   const [password,setPassword] = useState('')
 
   const dispatch = useDispatch();
-
 
   const handleLogin = () => {
     try {
@@ -23,7 +21,9 @@ const Login = ({navigation}) => {
       })
       .then(function (response) {
         // console.log("Response from server: ", response.data)
+        console.log("Response from server: ", response.data);
         const user = {
+          name: response.data,
           email: email,
           password: password
         }
