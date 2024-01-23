@@ -12,10 +12,10 @@ target_url = 'http://localhost:8800/diagnosis/addDiagnosis'
 
 current_dir = os.getcwd()
 parent_dir = os.path.dirname(current_dir)
-image_folder = os.path.join(parent_dir, 'output/673415/20210119001723/T1S/T1S_base64_slice')
+image_folder = os.path.join(parent_dir, 'output/673415/20210119001723/T1GC/T1GC_base64_slice')
 
 diagnosisID = 20210119001723
-tag = 'T1S'
+tag = 'T1GC'
 
 try:
     diagnosisImage = []
@@ -28,13 +28,16 @@ try:
                 base64_string = f.read()
                 diagnosisImage.append(base64_string)
 
+
     data = {
         'diagnosisID': diagnosisID,
-        'tag': tag,
-        'diagnosisImage': diagnosisImage
+        'diagnosisImage': {
+            'tag': tag,
+            'image': diagnosisImage
+        }
     }
 
-    response = requests.post(target_url, data=data)
+    response = requests.post(target_url, json=data)
     print(response)  
     print(response.text)
 

@@ -28,7 +28,6 @@ exports.addDiagnosis = async function (req, res) {
             console.log("Server: successfully added diagnosisImage");
             res.send("DiagnosisImage added successfully");
         }
-
     }
     catch (err) {
         console.log(err);

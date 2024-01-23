@@ -11,15 +11,15 @@ const diagnosisSchema = new mongoose.Schema({
         required: false
     },
     diagnosisImageResNetTotalMask: {
-        type: String,
+        type: [Object],
         required: false
     },
     diagnosisImageUNetTotalMask: {
-        type: String,
+        type: [Object],
         required: false
     },
     diagnosisImageTransUNetTotalMask: {
-        type: String,
+        type: [Object],
         required: false
     },
 });

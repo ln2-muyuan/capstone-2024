@@ -21,7 +21,8 @@ const ImageSlider = ({ diagnosisID, tag, model }) => {
   //   console.log(`${key}: ${diagnosis[key]}`);
   // });
 
-  const images = diagnosis.diagnosisImage;
+  // 在这里设置哪个图片
+  const images = diagnosis.diagnosisImage[0].image
 
 
   // const images = [
