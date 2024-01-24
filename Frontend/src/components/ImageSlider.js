@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Animated, Text } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { useSelector } from 'react-redux';
@@ -22,8 +22,22 @@ const ImageSlider = ({ diagnosisID, tag, model }) => {
   // });
 
 
+  // 打印所有tag
+  diagnosis.diagnosisImage.forEach((item) => {
+    console.log(item.tag);
+  });
+
+
   // 在这里设置哪个图片
-  const images = diagnosis.diagnosisImage.find((item) => item.tag === tag).image;
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    if (model === 'Preview') {
+      setImages(diagnosis.diagnosisImage.find((item) => item.tag === tag).image);
+    } else {
+      console.log("yes")
+    }
+  }, []);
 
 
   // const images = [
@@ -39,7 +53,6 @@ const ImageSlider = ({ diagnosisID, tag, model }) => {
   //   ];
   
   const [sliderValue, setSliderValue] = useState(0);
-  
   const handleSliderChange = (value) => {
     setSliderValue(value);
   };

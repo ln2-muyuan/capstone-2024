@@ -146,7 +146,7 @@ const TagList = ({ route, navigation }) => {
 
     
       {showSlider && (
-        <ImageSlider key={sliderKey} diagnosisID={selectedDiagnosisID} tag={selectedTags} model={selectedModel} />
+        <ImageSlider key={sliderKey} diagnosisID={selectedDiagnosisID} tag={selectedTags} model={"Preview"} />
       )}
 
 
