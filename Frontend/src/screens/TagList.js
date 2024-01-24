@@ -14,7 +14,7 @@ const TagList = ({ route, navigation }) => {
   const [selectedTags, setselectedTags] = useState('');
   
   const tagsList = [
-    { id: 1, name: 'TIGC' },
+    { id: 1, name: 'T1GC' },
     { id: 2, name: 'T1S' },
     { id: 3, name: 'T1SC' },
     { id: 4, name: 'T1ZC' },
@@ -70,18 +70,25 @@ const TagList = ({ route, navigation }) => {
 
 
   const [showSlider, setShowSlider] = useState(false); 
+  const [sliderKey, setSliderKey] = useState(0);
 
-  const handleNextPress = () => {
+  const diagnosis = useSelector((state) => state.diag.diag);
+  const handlePreviewPress = () => {
     // check whether the user has selected a tag and the model
     if (selectedTags === '') {
       alert('Please select a tag!');
       return;
     }
-    if (selectedModel === '') {
-      alert('Please select a model!');
+    // check diagnosis.diagnosisImage whether includes the selected tag
+    const selectedDiagnosis = diagnosis.diagnosisImage.find((item) => item.tag === selectedTags);
+    if (!selectedDiagnosis) {
+      alert("Not found the tag's image!");
       return;
     }
+
+
     setShowSlider(true);
+    setSliderKey(prevKey => prevKey + 1);
   };
 
   const handleRunPress = () => {
@@ -128,8 +135,8 @@ const TagList = ({ route, navigation }) => {
           contentContainerStyle={styles.listContainer}
         />
 
-        <TouchableOpacity style={styles.button} onPress={() => handleNextPress()}>
-          <Text style={styles.buttonText}>Overview</Text>
+        <TouchableOpacity style={styles.button} onPress={() => handlePreviewPress()}>
+          <Text style={styles.buttonText}>Preview</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={() => handleRunPress()}>
           <Text style={styles.buttonText}>Run Model</Text>
@@ -139,7 +146,7 @@ const TagList = ({ route, navigation }) => {
 
     
       {showSlider && (
-        <ImageSlider diagnosisID={selectedDiagnosisID} tag={selectedTags} model={selectedModel} />
+        <ImageSlider key={sliderKey} diagnosisID={selectedDiagnosisID} tag={selectedTags} model={selectedModel} />
       )}
 
 

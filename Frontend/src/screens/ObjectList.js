@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator, ScrollView, RefreshControl} from 'react-native';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setDiag } from '../store/diagSlice';
+import { setPatient } from '../store/patientSlice';
 
 const ObjectList = ({ navigation }) => {
   const [selectedPatientID, setselectedPatientID] = useState('');
@@ -73,10 +74,14 @@ const ObjectList = ({ navigation }) => {
 
 
   const dispatch = useDispatch();
-  
+  const [isNextLoading, setIsNextLoading] = useState(false);
+
   const handleNext = () => {
+
       if  (diagnosisID.length === 0) {
+        setIsNextLoading(true);
         alert('No diagnosis ID for the patient');
+        setIsNextLoading(false);
         return;
       }
 
@@ -89,7 +94,7 @@ const ObjectList = ({ navigation }) => {
     console.log('selectedDiagnosisID: '+selectedDiagnosisID);
     
 
-    // 待调整参数
+    setIsNextLoading(true);
     axios.get('http://10.0.2.2:8800/diagnosis/getDiagnosis', {
       params: {
         diagnosisID: selectedDiagnosisID
@@ -99,23 +104,46 @@ const ObjectList = ({ navigation }) => {
       const diagnosis = response.data;
       console.log("length of diagnosis: ", Object.keys(diagnosis).length);
       dispatch(setDiag(diagnosis));
+      setIsNextLoading(false);
       navigation.navigate('TagList', { selectedPatientID, selectedDiagnosisID });
       })
     .catch(function (error) {
       if (error.response && error.response.data) {
+        setIsNextLoading(false);
         alert(error.response.data);
         console.log("Response from server: ", error.response.data);
     } else {
         console.log("Error occurred: ", error);
     }
   });
-  
 }
 
+  // useSelector必须放在外面，不能放在函数里面
+  const user = useSelector((state) => state.login.user);
+  const email = user.email;
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const onRefresh = () => {
+    setIsRefreshing(true);
+    axios.get('http://10.0.2.2:8800/user/getPatients', {
+      params: {
+        email: email
+      }
+    })
+    .then(function (response) {
+      const patients = response.data
+      console.log("Response from server: ", patients)
+      dispatch(setPatient(patients))
+      setIsRefreshing(false);
+    })
+    .catch(function (error) {
+      console.log("Response from server: ", error.response.data);
+    });
 
+  }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}>
+
 
       <Text style={styles.title}>Select recent patient:</Text>
       <FlatList
@@ -141,7 +169,7 @@ const ObjectList = ({ navigation }) => {
 
 
 
-
+  
       
       {/* <View style={styles.selectedPatientIDContainer}>
         <Text style={styles.selectedPatientIDText}>Selected patient ID: </Text>
@@ -159,11 +187,12 @@ const ObjectList = ({ navigation }) => {
 
 
 
+      {isNextLoading && <ActivityIndicator size="large" color="#0000ff" style={{ marginTop: 6, marginBottom: 26 }} />}
         
       <TouchableOpacity style={styles.button} onPress={handleNext}>
         <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -226,6 +255,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#7FC7D9',
     padding: 10,
     marginHorizontal: 12,
+    marginBottom: 50,
     borderRadius: 5,
     alignItems: 'center',
   },
