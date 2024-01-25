@@ -12,15 +12,16 @@ target_url = 'http://localhost:8800/diagnosis/addDiagnosis'
 
 current_dir = os.getcwd()
 parent_dir = os.path.dirname(current_dir)
-image_folder = os.path.join(parent_dir, 'output/673415/20210119001723/T1GC/T1GC_base64_slice')
+image_folder = os.path.join(parent_dir, 'output/675080/20201222003169/T2Z/T2Z_base64_slice')
 
-diagnosisID = 20210119001723
-tag = 'T1GC'
+diagnosisID = 20201222003169
+tag = 'T2Z'
 
 try:
     diagnosisImage = []
 
     for file_name in os.listdir(image_folder):
+        print(file_name)
         image_path = os.path.join(image_folder, file_name)
 
         if os.path.isfile(image_path):

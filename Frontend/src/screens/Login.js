@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { login } from '../store/loginSlice';
 import { setPatient } from '../store/patientSlice';
+import Toast from 'react-native-toast-message';
 
 
 const Login = ({navigation}) => {
@@ -48,7 +49,17 @@ const Login = ({navigation}) => {
         console.log("Response from server: ", error.response.data);
       });
 
-
+      Toast.show({
+        type: 'success',
+        position: 'top',
+        text1: 'Success',
+        text2: 'Login successully!',
+        visibilityTime: 4000,
+        autoHide: true,
+        text1Style: { fontSize: 16, color: '#64CCC5' },
+        text2Style: { fontSize: 12, color: '#000000', fontStyle: 'italic' }, 
+      });
+      
       navigation.navigate('Profile')
   
     }

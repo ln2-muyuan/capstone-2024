@@ -22,6 +22,18 @@ const diagnosisSchema = new mongoose.Schema({
         type: [Object],
         required: false
     },
+    diagnosisImageResNetTotalTumor: {
+        type: [Object],
+        required: false
+    },
+    diagnosisImageUNetTotalTumor: {
+        type: [Object],
+        required: false
+    },
+    diagnosisImageTransUNetTotalTumor: {
+        type: [Object],
+        required: false
+    },
 });
 
 const Diagnosis = mongoose.model('Diagnosis', diagnosisSchema);

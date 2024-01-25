@@ -15,12 +15,16 @@ const RunModel = ( { route, navigation } ) => {
 
     return (
         <ScrollView>
-          <Text>  123</Text>
+          <Text style={{fontSize: 18, fontWeight: 'bold', textAlign: 'center', marginTop: 20}}>Model Result</Text>
+          <ImageSlider diagnosisID={selectedDiagnosisID} tag={selectedTags} model={"ResNetTotalMask"} />
+          <ImageSlider diagnosisID={selectedDiagnosisID} tag={selectedTags} model={"Preview"} />
+          <Text style={{fontSize: 18, fontWeight: 'bold', textAlign: 'center'}}>Original</Text>
         </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
+
     imageSliderContainer: {
       alignItems: 'center',
       justifyContent: 'center',

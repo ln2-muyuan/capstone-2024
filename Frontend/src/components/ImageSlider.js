@@ -33,10 +33,17 @@ const ImageSlider = ({ diagnosisID, tag, model }) => {
 
   useEffect(() => {
     if (model === 'Preview') {
+
       setImages(diagnosis.diagnosisImage.find((item) => item.tag === tag).image);
-    } else {
-      console.log("yes")
+      
+    } 
+    else if (model === 'ResNetTotalMask') {
+
+      setImages(diagnosis.diagnosisImageResNetTotalMask.find((item) => item.tag === tag).image);
+      
     }
+  
+
   }, []);
 
 
@@ -107,7 +114,7 @@ const ImageSlider = ({ diagnosisID, tag, model }) => {
     
 
       <Slider
-        style={{ marginHorizontal: 5, flex: 1 }}
+        style={{ marginTop: 5, flex: 1 }}
         minimumValue={0}
         maximumValue={1}
         value={sliderValue}
@@ -133,7 +140,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginTop: 20,
-    marginBottom: 50,
+    marginBottom: 30,
     marginHorizontal: 20,
   },
   buttonImage: {

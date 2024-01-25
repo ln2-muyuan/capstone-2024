@@ -21,8 +21,11 @@ const Home = ({ navigation }) => {
             <TouchableOpacity style={styles.module} onPress={() => { loggedIn ? navigation.navigate('ObjectList') : console.log("Not logged in")}}>
             <Text style={styles.moduleText}>Check{'\n'}Images</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.module} onPress={() => { loggedIn ? navigation.navigate('Manage') : console.log("Not logged in")}}>
+            {/* <TouchableOpacity style={styles.module} onPress={() => { loggedIn ? navigation.navigate('Manage') : console.log("Not logged in")}}>
             <Text style={styles.moduleText}>Manage{'\n'}Patients</Text>
+            </TouchableOpacity> */}
+            <TouchableOpacity style={styles.module}>
+            <Text style={styles.moduleText}>Function 2</Text>
             </TouchableOpacity>
         </View>
         <View style={styles.row}>

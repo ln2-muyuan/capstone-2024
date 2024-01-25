@@ -100,6 +100,27 @@ const TagList = ({ route, navigation }) => {
       alert('Please select a model!');
       return;
     }
+    if (selectedModel === 'ResNet') {
+      const selectedDiagnosis = diagnosis.diagnosisImageResNetTotalMask.find((item) => item.tag === selectedTags);
+      if (!selectedDiagnosis) {
+        alert("The model has not been trained yet!");
+        return;
+      }
+    }
+    if (selectedModel === 'UNet') {
+      const selectedDiagnosis = diagnosis.diagnosisImageUNetTotalMask.find((item) => item.tag === selectedTags);
+      if (!selectedDiagnosis) {
+        alert("The model has not been trained yet!");
+        return;
+      }
+    }
+    if (selectedModel === 'Trans-UNet') {
+      const selectedDiagnosis = diagnosis.diagnosisImageTransUNetTotalMask.find((item) => item.tag === selectedTags);
+      if (!selectedDiagnosis) {
+        alert("The model has not been trained yet!");
+        return;
+      }
+    }
     navigation.navigate('RunModel', { selectedPatientID: selectedPatientID, selectedDiagnosisID: selectedDiagnosisID, selectedTags: selectedTags, selectedModel: selectedModel });
   };
 
