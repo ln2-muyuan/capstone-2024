@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Animated, Text } from 'react-native';
+import { View, Animated, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { useSelector } from 'react-redux';
 
@@ -53,6 +53,7 @@ const ImageSlider = ({ diagnosisID, tag, model }) => {
   //   ];
   
   const [sliderValue, setSliderValue] = useState(0);
+
   const handleSliderChange = (value) => {
     setSliderValue(value);
   };
@@ -61,6 +62,25 @@ const ImageSlider = ({ diagnosisID, tag, model }) => {
     const index = Math.floor(sliderValue * (images.length - 1));
     return index;
   };
+
+  const handleLeftButtonPress = () => {
+    if (sliderValue > 0.1) {
+      setSliderValue(sliderValue - 0.1);
+    }
+    if (sliderValue < 0.1) {
+      setSliderValue(0);
+    }
+  };
+
+  const handleRightButtonPress = () => {
+    if (sliderValue < 0.9) {
+      setSliderValue(sliderValue + 0.1);
+    }
+    if (sliderValue > 0.9) {
+      setSliderValue(1);
+    }
+  };
+
 
   return (
     <View>
@@ -75,17 +95,56 @@ const ImageSlider = ({ diagnosisID, tag, model }) => {
           source={{ uri: `data:image/png;base64, ${images[calculateImageIndex()]}` }}
         />
       </View>
+
+
+      <View style={styles.sliderContainer}>
+      
+      <TouchableOpacity onPress={handleLeftButtonPress}>
+        <View style={styles.buttonContainer}>
+          <Image source={require('../assets/left-arrow.png')} style={styles.buttonImage} />
+        </View>
+      </TouchableOpacity>
+    
+
       <Slider
-        style={{ marginHorizontal: 50, marginTop: 20, marginBottom: 50 }}
+        style={{ marginHorizontal: 5, flex: 1 }}
         minimumValue={0}
         maximumValue={1}
         value={sliderValue}
         onValueChange={handleSliderChange}
       />
 
+      <TouchableOpacity onPress={handleRightButtonPress}>
+        <View style={styles.buttonContainer}>
+          <Image source={require('../assets/right-arrow.png')} style={styles.buttonImage} />
+        </View>
+      </TouchableOpacity>
+
+      </View>
  
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+
+  sliderContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 20,
+    marginBottom: 50,
+    marginHorizontal: 20,
+  },
+  buttonImage: {
+    width: 28,
+    height: 28,
+  },
+  buttonContainer: {
+    alignItems: 'center',
+  },
+});
+
+
 
 export default ImageSlider;
