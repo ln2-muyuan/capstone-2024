@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Button, ScrollView, Image, ScrollViewComponent } from 'react-native';
 import ImageSlider from '../components/ImageSlider';
+import Navbar from '../components/Navbar';
 import { useSelector } from 'react-redux';
 
 
@@ -128,7 +129,8 @@ const TagList = ({ route, navigation }) => {
 
   // FlatList放在ScrollView里会有警告
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
+    <ScrollView >
 
  
       <View style={styles.selectionArea}>
@@ -148,31 +150,43 @@ const TagList = ({ route, navigation }) => {
         </View> */}
 
 
-        <Text style={styles.title}>Select model</Text>
-        <FlatList
-          data={modelList}
-          renderItem={renderModel}
-          keyExtractor={(item) => item.id.toString()}
-          contentContainerStyle={styles.listContainer}
-        />
+
 
         <TouchableOpacity style={styles.button} onPress={() => handlePreviewPress()}>
           <Text style={styles.buttonText}>Preview</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => handleRunPress()}>
-          <Text style={styles.buttonText}>Run Model</Text>
-        </TouchableOpacity>
+      
 
       </View>
 
     
       {showSlider && (
-        <ImageSlider key={sliderKey} diagnosisID={selectedDiagnosisID} tag={selectedTags} model={"Preview"} />
+        <ImageSlider key={sliderKey} diagnosisID={selectedDiagnosisID} tag={selectedTags} model={"Preview"} size={350} orientation={"bottom"}/>
       )}
 
 
 
+      <View style={styles.selectionArea}>
+        <View style={{ borderTopColor: '#C4C4C4', borderTopWidth: 1, marginTop: 30 }}></View>
+        <Text style={[styles.title, { marginTop: 8 }]}>Select model</Text>
+          <FlatList
+            data={modelList}
+            renderItem={renderModel}
+            keyExtractor={(item) => item.id.toString()}
+            contentContainerStyle={styles.listContainer}
+          />
+        <TouchableOpacity style={[styles.button, { marginBottom: 70 }]} onPress={() => handleRunPress()}>
+          <Text style={styles.buttonText}>Run Model</Text>
+        </TouchableOpacity>
+      </View>
+   
+
     </ScrollView>
+
+    <Navbar />
+
+    </View>
+      
   );
 };
 
@@ -194,7 +208,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#333333',
-    marginBottom: 6,
+    marginBottom: 10,
     marginLeft: 12,
   },
 
@@ -244,7 +258,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#7FC7D9',
     padding: 10,
-    marginVertical: 8,
+    marginVertical: 0,
     marginHorizontal: 12,
     borderRadius: 5,
     alignItems: 'center',

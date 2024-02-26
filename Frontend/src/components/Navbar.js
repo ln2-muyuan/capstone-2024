@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#DCF2F1',
     padding: 10,
     borderTopWidth: 1,
+    //HERE
     borderTopColor: '#C4C4C4',
   },
   buttonImage: {

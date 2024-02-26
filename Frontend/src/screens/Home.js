@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Navbar from '../components/Navbar';
 import { useSelector } from 'react-redux';
@@ -18,7 +18,7 @@ const Home = ({ navigation }) => {
         <View style={{flexGrow: 0.90}}>
         <View style={styles.container}>
         <View style={styles.row}>
-            <TouchableOpacity style={styles.module} onPress={() => { loggedIn ? navigation.navigate('ObjectList') : console.log("Not logged in")}}>
+            <TouchableOpacity style={styles.module} onPress={() => { loggedIn ? navigation.navigate('ObjectList') : Alert.alert("Please log in first")}}>
             <Text style={styles.moduleText}>Check{'\n'}Images</Text>
             </TouchableOpacity>
             {/* <TouchableOpacity style={styles.module} onPress={() => { loggedIn ? navigation.navigate('Manage') : console.log("Not logged in")}}>
@@ -44,6 +44,7 @@ const Home = ({ navigation }) => {
             <Text style={styles.moduleText}>Function 6</Text>
             </TouchableOpacity>
         </View>
+        
         </View>
         </View>
 

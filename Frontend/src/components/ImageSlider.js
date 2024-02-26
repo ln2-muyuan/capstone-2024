@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 
 // 传入参数记得带上{}
-const ImageSlider = ({ diagnosisID, tag, model }) => {
+const ImageSlider = ({ diagnosisID, tag, model, orientation, size }) => {
 
   // const diagnosis = useSelector((state) => state.diagnosis.diagnosis);
   console.log("ImageSlider diagnosisID: ", diagnosisID)
@@ -91,13 +91,16 @@ const ImageSlider = ({ diagnosisID, tag, model }) => {
 
   return (
     <View>
-      <View style={{ alignItems: 'center' }}>
+
+      { orientation === 'bottom' ? (
+        <><View style={{ alignItems: 'center' }}>
         <Animated.Image
           style={{
-            width: 350,
-            height: 350,
+            width: size,
+            height: size,
             borderRadius: 10,
-            marginTop: 20,
+            // HERE
+            marginTop: 0,
           }}
           source={{ uri: `data:image/png;base64, ${images[calculateImageIndex()]}` }}
         />
@@ -114,7 +117,37 @@ const ImageSlider = ({ diagnosisID, tag, model }) => {
     
 
       <Slider
-        style={{ marginTop: 5, flex: 1 }}
+        style={{ marginTop: 0, flex: 1 }}
+        minimumValue={0}
+        maximumValue={1}
+        value={sliderValue}
+        onValueChange={handleSliderChange}
+      />
+
+      <TouchableOpacity onPress={handleRightButtonPress}>
+        <View style={styles.buttonContainer}>
+          <Image source={require('../assets/right-arrow.png')} style={styles.buttonImage} />
+        </View>
+      </TouchableOpacity>
+
+      </View></>
+      )
+
+      : (
+        
+      <>
+        
+      <View style={styles.sliderContainer}>
+      
+      <TouchableOpacity onPress={handleLeftButtonPress}>
+        <View style={styles.buttonContainer}>
+          <Image source={require('../assets/left-arrow.png')} style={styles.buttonImage} />
+        </View>
+      </TouchableOpacity>
+    
+
+      <Slider
+        style={{ marginTop: 0, flex: 1 }}
         minimumValue={0}
         maximumValue={1}
         value={sliderValue}
@@ -128,6 +161,23 @@ const ImageSlider = ({ diagnosisID, tag, model }) => {
       </TouchableOpacity>
 
       </View>
+        <View style={{ alignItems: 'center' }}>
+        <Animated.Image
+          style={{
+            width: size,
+            height: size,
+            borderRadius: 10,
+            // HERE
+            marginTop: 0,
+          }}
+          source={{ uri: `data:image/png;base64, ${images[calculateImageIndex()]}` }}
+        />
+      </View>
+
+
+      </>
+    )}
+      
  
     </View>
   );
@@ -139,8 +189,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 20,
-    marginBottom: 30,
+    //HERE
+    marginTop: 0,
+    marginBottom: 0,
     marginHorizontal: 20,
   },
   buttonImage: {

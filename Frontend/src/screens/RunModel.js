@@ -15,10 +15,12 @@ const RunModel = ( { route, navigation } ) => {
 
     return (
         <ScrollView>
-          <Text style={{fontSize: 18, fontWeight: 'bold', textAlign: 'center', marginTop: 20}}>Model Result</Text>
-          <ImageSlider diagnosisID={selectedDiagnosisID} tag={selectedTags} model={"ResNetTotalMask"} />
-          <ImageSlider diagnosisID={selectedDiagnosisID} tag={selectedTags} model={"Preview"} />
-          <Text style={{fontSize: 18, fontWeight: 'bold', textAlign: 'center'}}>Original</Text>
+          <Text style={{fontSize: 18, fontWeight: 'bold', color: '#333333', marginLeft: 20, marginTop: 20}}>Model Result</Text>
+          <ImageSlider diagnosisID={selectedDiagnosisID} tag={selectedTags} model={"ResNetTotalMask"} size={350} />
+          {/* <Text style={{fontSize: 18, fontWeight: 'bold', color: '#333333', marginLeft: 20, marginTop: 20}}>Original</Text> */}
+          <ImageSlider diagnosisID={selectedDiagnosisID} tag={selectedTags} model={"Preview"} size={350} orientation={"bottom"}/>
+          <View style={{height: 20}}></View>
+   
         </ScrollView>
     );
 };
