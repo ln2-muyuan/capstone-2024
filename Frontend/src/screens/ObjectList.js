@@ -8,7 +8,7 @@ import { setPatient } from '../store/patientSlice';
 
 const ObjectList = ({ navigation }) => {
   const [selectedPatientID, setselectedPatientID] = useState('');
-
+  const [firstLoad, setFirstLoad] = useState(true);
 
   // 但在redux外面是这样子读取的
   const patient = useSelector((state) => state.patient.patient);
@@ -33,6 +33,7 @@ const ObjectList = ({ navigation }) => {
   // ];
 
   const handlePatientSelection = (tag) => {
+    setFirstLoad(false);
     setselectedPatientID(tag);
     const selectedPatient = patient.find((patient) => patient.name + '-' + patient.patientID === tag);
     if (selectedPatient) {
@@ -71,7 +72,7 @@ const ObjectList = ({ navigation }) => {
     );
   }
 
-
+  console.log("first load: ", firstLoad)
 
   const dispatch = useDispatch();
   const [isNextLoading, setIsNextLoading] = useState(false);
@@ -154,6 +155,9 @@ const ObjectList = ({ navigation }) => {
         contentContainerStyle={styles.listContainer}
       />
 
+
+      { !firstLoad && <>
+
       <Text style={styles.title}>Select the patient's diagnosis ID:</Text>
       {diagnosisID.length > 0 ? (
              <FlatList
@@ -187,11 +191,26 @@ const ObjectList = ({ navigation }) => {
 
 
 
-      {isNextLoading && <ActivityIndicator size="large" color="#0000ff" style={{ marginTop: 6, marginBottom: 26 }} />}
+      {isNextLoading && <>
+ 
+
+
+          <View style={styles.loaderContainer}>
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>
+
+
+      </>}
         
       <TouchableOpacity style={styles.button} onPress={handleNext}>
         <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
+
+      </>
+    }
+
+
+
     </ScrollView>
   );
 };
@@ -264,6 +283,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+
+
+
+  loaderContainer: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: [{ translateX: -50 }, { translateY: -25 }], // 将加载指示器向左上方偏移自身一半的大小
+    backgroundColor: 'rgba(0, 0, 0, 0.3)', // 半透明黑色背景
+    borderRadius: 10,
+    padding: 20,
+  },
+
 });
 
 export default ObjectList;

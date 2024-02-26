@@ -29,7 +29,7 @@ const App = () => {
           <Stack.Screen options={{title:"Welcome "}} name="Home" component={Home} />
           <Stack.Screen name="ObjectList" component={ObjectList} />
           <Stack.Screen name="TagList" component={TagList} />
-          <Stack.Screen name="RunModel" component={RunModel} />
+          <Stack.Screen options={{ headerShown: false }} name="RunModel" component={RunModel} />
           <Stack.Screen name="Manage" component={Manage} />
           <Stack.Screen options={{ headerShown: false }} name="Profile" component={Profile} />
           <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />

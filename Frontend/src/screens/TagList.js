@@ -161,7 +161,9 @@ const TagList = ({ route, navigation }) => {
 
     
       {showSlider && (
+        <View style={{ marginTop: 20 }}>
         <ImageSlider key={sliderKey} diagnosisID={selectedDiagnosisID} tag={selectedTags} model={"Preview"} size={350} orientation={"bottom"}/>
+        </View>
       )}
 
 

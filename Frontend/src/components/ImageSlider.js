@@ -93,18 +93,24 @@ const ImageSlider = ({ diagnosisID, tag, model, orientation, size }) => {
     <View>
 
       { orientation === 'bottom' ? (
-        <><View style={{ alignItems: 'center' }}>
+        <>
+        <View style={{ alignItems: 'center', flex: 1, flexDirection: 'row'}}>
         <Animated.Image
           style={{
             width: size,
             height: size,
             borderRadius: 10,
-            // HERE
-            marginTop: 0,
+            position: 'absolute',
+            left: '50%',
+            marginLeft: -size/2,
           }}
           source={{ uri: `data:image/png;base64, ${images[calculateImageIndex()]}` }}
         />
-      </View>
+        <Text style = {{marginLeft:8, marginTop:size}} >{calculateImageIndex()}</Text>
+        </View> 
+
+
+
 
 
       <View style={styles.sliderContainer}>
@@ -117,7 +123,7 @@ const ImageSlider = ({ diagnosisID, tag, model, orientation, size }) => {
     
 
       <Slider
-        style={{ marginTop: 0, flex: 1 }}
+        style={{ flex: 1 }}
         minimumValue={0}
         maximumValue={1}
         value={sliderValue}
@@ -147,7 +153,7 @@ const ImageSlider = ({ diagnosisID, tag, model, orientation, size }) => {
     
 
       <Slider
-        style={{ marginTop: 0, flex: 1 }}
+        style={{ marginVertical: 0, flex: 1 }}
         minimumValue={0}
         maximumValue={1}
         value={sliderValue}
@@ -161,18 +167,22 @@ const ImageSlider = ({ diagnosisID, tag, model, orientation, size }) => {
       </TouchableOpacity>
 
       </View>
-        <View style={{ alignItems: 'center' }}>
+
+
+      <View style={{ alignItems: 'center', flex: 1, flexDirection: 'row'}}>
         <Animated.Image
           style={{
             width: size,
             height: size,
             borderRadius: 10,
-            // HERE
-            marginTop: 0,
+            position: 'absolute',
+            left: '50%',
+            marginLeft: -size/2,
           }}
           source={{ uri: `data:image/png;base64, ${images[calculateImageIndex()]}` }}
         />
-      </View>
+        <Text style = {{marginLeft:8, marginTop:size}} >{calculateImageIndex()}</Text>
+        </View> 
 
 
       </>
@@ -190,8 +200,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     //HERE
-    marginTop: 0,
-    marginBottom: 0,
+    marginTop: 4,
+    marginBottom: 4,
     marginHorizontal: 20,
   },
   buttonImage: {
