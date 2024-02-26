@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setDiag } from '../store/diagSlice';
 import { setPatient } from '../store/patientSlice';
+import Navbar from '../components/Navbar';
 
 const ObjectList = ({ navigation }) => {
   const [selectedPatientID, setselectedPatientID] = useState('');
@@ -143,7 +144,8 @@ const ObjectList = ({ navigation }) => {
   }
 
   return (
-    <ScrollView style={styles.container} refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}>
+    <View style={styles.container} >
+    <ScrollView refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}>
 
 
       <Text style={styles.title}>Select recent patient:</Text>
@@ -212,6 +214,9 @@ const ObjectList = ({ navigation }) => {
 
 
     </ScrollView>
+    
+    <Navbar />
+    </View>
   );
 };
 
@@ -274,7 +279,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#7FC7D9',
     padding: 10,
     marginHorizontal: 12,
-    marginBottom: 50,
+    marginBottom: 80,
     borderRadius: 5,
     alignItems: 'center',
   },
