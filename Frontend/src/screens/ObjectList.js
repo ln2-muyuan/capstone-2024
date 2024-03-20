@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { setDiag } from '../store/diagSlice';
 import { setPatient } from '../store/patientSlice';
 import Navbar from '../components/Navbar';
+import API_URL from '../utils/request';
 
 const ObjectList = ({ navigation }) => {
   const [selectedPatientID, setselectedPatientID] = useState('');
@@ -97,7 +98,7 @@ const ObjectList = ({ navigation }) => {
     
 
     setIsNextLoading(true);
-    axios.get('http://10.0.2.2:8800/diagnosis/getDiagnosis', {
+    axios.get(`${API_URL}/diagnosis/getDiagnosis`, {
       params: {
         diagnosisID: selectedDiagnosisID
       }
@@ -126,7 +127,7 @@ const ObjectList = ({ navigation }) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const onRefresh = () => {
     setIsRefreshing(true);
-    axios.get('http://10.0.2.2:8800/user/getPatients', {
+    axios.get(`${API_URL}/user/getPatients`, {
       params: {
         email: email
       }

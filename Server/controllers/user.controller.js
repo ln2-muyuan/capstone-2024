@@ -27,6 +27,7 @@ exports.register = async function (req, res) {
 exports.login = async function (req, res) {
     const email = req.body.email;
     const password = req.body.password;
+    console.log("Server: received login request")
     try {
         const user = await User.findOne( {email: email} )
         const userName = user.name;
