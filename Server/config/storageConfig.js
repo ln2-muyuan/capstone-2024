@@ -7,11 +7,11 @@ const storage = multer.diskStorage({
     // const email = req.body.email;
     // console.log(email);
     // const folderPath = `uploads/${email}`;
-    // if (!fs.existsSync
-    //   (folderPath)) {
-    //   fs.mkdirSync(folderPath, { recursive: true });
-    // }
-    const folderPath = `uploads/`;
+    const folderPath = `../data-process/input/`;
+    if (!fs.existsSync
+      (folderPath)) {
+      fs.mkdirSync(folderPath, { recursive: true });
+    }
     cb(null, folderPath);
   },
   filename: function (req, file, cb) {

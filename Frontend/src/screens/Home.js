@@ -3,17 +3,31 @@ import { StyleSheet, View, TouchableOpacity, Text, Alert, ImageBackground } from
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Navbar from '../components/Navbar';
 import { useSelector } from 'react-redux';
+import DocumentPicker from 'react-native-document-picker';
+import { useState } from 'react';
 
 
 const Home = ({ navigation }) => {
 
   const loggedIn = useSelector((state) => state.login.loggedIn);
+  const [selectedFile, setSelectedFile] = useState(null);
+
   const need = false;
   console.log("Home loggedIn: ", loggedIn)
   // const diagnosis = useSelector((state) => state.diagnosis.diagnosis);
   const backgroundImage = require('../assets/background.png');
-  const handleUpload = () => {
-    console.log("Upload")
+
+
+  const handleSelectFiles = async () => {
+    try {
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.zip],
+      });
+
+      setSelectedFile(res);
+    } catch (err) {
+      console.log('File selection error:', err);
+    }
   }
 
 
@@ -50,7 +64,7 @@ const Home = ({ navigation }) => {
             <TouchableOpacity style={styles.module} onPress={() => { loggedIn ? navigation.navigate('ObjectList') : Alert.alert("Please log in first")}}>
             <Text style={styles.moduleText}>Check{'\n'}Images</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.module} onPress={() => { loggedIn ? handleUpload() : Alert.alert("Please log in first")}}>
+            <TouchableOpacity style={styles.module} onPress={() => { loggedIn ? handleSelectFiles() : Alert.alert("Please log in first")}}>
             <Text style={styles.moduleText}>Upload{'\n'}Files</Text>
             </TouchableOpacity>
         </View>
