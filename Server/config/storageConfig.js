@@ -4,10 +4,7 @@ const fs = require('fs');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    // const email = req.body.email;
-    // console.log(email);
-    // const folderPath = `uploads/${email}`;
-    const folderPath = `../data-process/input/`;
+    const folderPath = 'tempdata/input/';
     if (!fs.existsSync
       (folderPath)) {
       fs.mkdirSync(folderPath, { recursive: true });

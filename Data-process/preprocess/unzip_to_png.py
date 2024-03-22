@@ -1,8 +1,11 @@
 import os
+import sys
 import zipfile
 import nibabel as nib
 from PIL import Image
 import numpy as np
+import json
+
 
 
 def unzip_all_files(folder_path, extract_path):
@@ -38,15 +41,12 @@ def convert_to_png(file_path):
 
 
 
-
-
-
-
 def main():
+    print("email: " + sys.argv[1])
     # 先看下当前路径在哪里
     # print(os.getcwd())
-    folder_path = '../data-process/input'  
-    extract_path = '../data-process/original-png'
+    folder_path = 'tempdata/input'  
+    extract_path = 'tempdata/original-png'
 
     # 确保导出目录存在
     os.makedirs(extract_path, exist_ok=True)
@@ -61,10 +61,27 @@ def main():
                 convert_to_png(file_path)
                 # print(f'Converted {file_path} to PNG')
 
-    extract_path = '../original-png'
-    patient_data = {}
+    current_path = os.getcwd()
+    parent_path = os.path.dirname(current_path)
+    child_path = os.path.join(parent_path, 'data-process', 'original-png')
 
-    print(extract_path)
+    patients = []
+    diagnosisID = []
+    if os.path.exists(child_path) and os.path.isdir(child_path):
+        subdirs = os.listdir(child_path)
+        for subdir in subdirs:
+            if os.path.isdir(os.path.join(child_path, subdir)):
+                patients.append(subdir)
+                current_path = os.path.join(child_path, subdir)
+                subdirs = os.listdir(current_path)
+                for subdir in subdirs:               
+                    diagnosisID.append(subdir)
+
+    
+    patient_data = {"patients": patients, "diagnosisID": diagnosisID}
+
+    with open("tempdata/output.json", "w") as f:
+        json.dump(patient_data, f)
 
 
 
