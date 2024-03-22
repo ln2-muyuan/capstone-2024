@@ -42,7 +42,6 @@ def convert_to_png(file_path):
 
 
 def main():
-    print("email: " + sys.argv[1])
     # 先看下当前路径在哪里
     # print(os.getcwd())
     folder_path = 'tempdata/input'  
@@ -62,8 +61,8 @@ def main():
                 # print(f'Converted {file_path} to PNG')
 
     current_path = os.getcwd()
-    parent_path = os.path.dirname(current_path)
-    child_path = os.path.join(parent_path, 'data-process', 'original-png')
+
+    child_path = os.path.join(current_path,'tempdata', 'original-png')
 
     patients = []
     diagnosisID = []
@@ -78,9 +77,9 @@ def main():
                     diagnosisID.append(subdir)
 
     
-    patient_data = {"patients": patients, "diagnosisID": diagnosisID}
+    patient_data = {"patientID": int(patients[0]), "diagnosisID": int(diagnosisID[0])}
 
-    with open("tempdata/output.json", "w") as f:
+    with open("tempdata/add_patient_to_user.json", "w") as f:
         json.dump(patient_data, f)
 
 

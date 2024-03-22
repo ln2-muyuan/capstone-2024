@@ -81,11 +81,11 @@ exports.getPatients = async function (req, res) {
         let patientsData = []
         for (let i = 0; i < patientsID.length; i++) {
             const patient = await Patient.findOne( {patientID: patientsID[i]} )
+            console.log(patient)
             if (!patient) {
-                return res.status(400).send("Patient not found");
+                console.log("Patient not found in the patient document");
             }
             patientsData.push({
-                name: patient.name,
                 patientID: patient.patientID,
                 diagnosisID : patient.diagnosisID
             })
