@@ -2,8 +2,11 @@ const upload = require('../config/storageConfig');
 const fs = require('fs');
 const User = require('../models/user.model');
 const Patient = require('../models/patient.model');
+const Diagnosis = require('../models/diagnosis.model');
 
 const { execSync } = require('child_process');
+const { constrainedMemory } = require('process');
+const { type } = require('os');
 
 exports.handleUpload = function(req, res) {
 
@@ -58,8 +61,37 @@ exports.handleUpload = function(req, res) {
       res.send("Patient creation failed");
     }
 
-    
+    const ImageElement = { tag: "T1XX", image: ["afaasd123fdf"]}
 
+    let diagnosis = new Diagnosis({
+      diagnosisID: diagnosisID,
+      diagnosisImage: ImageElement
+    });
+
+    try {
+      const existingDiagnosis = await Diagnosis.findOne({ diagnosisID: diagnosisID });
+      if (!existingDiagnosis) {
+        await diagnosis.save();
+        console.log("Server: successfully saved diagnosis");
+      }
+      else {
+        for (let i = 0; i < existingDiagnosis.diagnosisImage.length; i++) {
+          if (existingDiagnosis.diagnosisImage[i].tag === ImageElement.tag) {
+            console.log("The tag has already been added");
+          }
+        }
+        // 这里不用existingDiagnosis.diagnosisImage.push(...req.body.diagnosisImage);
+        existingDiagnosis.diagnosisImage.push(ImageElement);
+        // 记得保存！！！
+        await existingDiagnosis.save();
+        console.log("Server: successfully added diagnosisImage");
+        
+      }
+    }
+    catch (err) {
+      console.log(err);
+      res.send("Diagnosis creation failed");
+    }
 
 
 
