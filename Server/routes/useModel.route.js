@@ -3,7 +3,7 @@ const useModelController = require('../controllers/useModel.controller');
 
 const router = express.Router();
 
-router.get('/', useModelController.handleUseModel);
+router.post('/', useModelController.handleUseModel);
 
 
 module.exports = router;

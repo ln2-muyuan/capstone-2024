@@ -8,6 +8,7 @@ import { setPatient } from '../store/patientSlice';
 import Navbar from '../components/Navbar';
 import API_URL from '../utils/request';
 
+
 const ObjectList = ({ navigation }) => {
   const [selectedPatientID, setselectedPatientID] = useState('');
   const [firstLoad, setFirstLoad] = useState(true);
@@ -17,7 +18,7 @@ const ObjectList = ({ navigation }) => {
   console.log("ObjectList patient: ", patient)
 
   let patientList = [];
-  if (patient) {
+  if (patient !== null && Array.isArray(patient)) {
     patientList = patient.map((patient, index) => {
       return {
         id: index + 1,
@@ -35,6 +36,7 @@ const ObjectList = ({ navigation }) => {
   const handlePatientSelection = (tag) => {
     setFirstLoad(false);
     console.log("tag is: ", tag)
+
     setselectedPatientID(tag);
     const selectedPatient = patient.find((patient) => patient.patientID === tag);
     console.log("selectedPatient's diagnosis is: ", selectedPatient.diagnosisID)
@@ -154,7 +156,7 @@ const ObjectList = ({ navigation }) => {
     <View style={styles.container} >
       <ScrollView refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}>
 
-      {patient && patient.length > 0 ? (
+      {patientList.length > 0 ? (
         <Text style={styles.title}>Select recent patient:</Text>
       ) : (
         <Text style={{ fontSize: 16, marginBottom: 12, marginLeft: 12}}>No patient found, please upload first</Text>
@@ -206,16 +208,7 @@ const ObjectList = ({ navigation }) => {
 
 
 
-      {isNextLoading && <>
- 
-
-
-          <View style={styles.loaderContainer}>
-            <ActivityIndicator size="large" color="#0000ff" />
-          </View>
-
-
-      </>}
+  
         
       <TouchableOpacity style={styles.button} onPress={handleNext}>
         <Text style={styles.buttonText}>Next</Text>
@@ -227,7 +220,11 @@ const ObjectList = ({ navigation }) => {
 
 
       </ScrollView>
-    
+      {isNextLoading && <>
+          <View style={styles.loaderContainer}>
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>
+      </>}
     <Navbar />
     </View>
 
@@ -315,7 +312,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: '50%',
     left: '50%',
-    transform: [{ translateX: -50 }, { translateY: -25 }], // 将加载指示器向左上方偏移自身一半的大小
+    transform: [{ translateX: -25 }, { translateY: -50 }], // 将加载指示器向左上方偏移自身一半的大小
     backgroundColor: 'rgba(0, 0, 0, 0.3)', // 半透明黑色背景
     borderRadius: 10,
     padding: 20,
