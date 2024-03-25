@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import Navbar from '../components/Navbar';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../store/loginSlice';
+import { clearDiag } from '../store/diagSlice';
+import { clearPatient } from '../store/patientSlice';
 
 const Profile = ({ navigation }) => {
 
@@ -17,7 +19,7 @@ const Profile = ({ navigation }) => {
       {loggedIn ? (
         <View>
           <Text style={{ fontSize: 32, color: '#41C9E2', fontStyle: 'italic', fontWeight: 'bold' }}>Welcome {user.name}</Text>
-          <TouchableOpacity onPress={() => dispatch(logout())}>
+          <TouchableOpacity onPress={() => {dispatch(logout()); dispatch(clearDiag()); dispatch(clearPatient())}}>
             <Text style={styles.linkText}>Logout</Text>
           </TouchableOpacity>
         </View>

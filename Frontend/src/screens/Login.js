@@ -43,6 +43,7 @@ const Login = ({navigation}) => {
         }
       })
       .then(function (response) {
+        console.log("Current user is: ", email)
         const patients = response.data
         console.log("Response from server: ", patients)
         dispatch(setPatient(patients))

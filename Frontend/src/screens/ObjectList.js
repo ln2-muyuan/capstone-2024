@@ -102,27 +102,27 @@ const ObjectList = ({ navigation }) => {
     
 
     setIsNextLoading(true);
-  //   axios.get(`${API_URL}/diagnosis/getDiagnosis`, {
-  //     params: {
-  //       diagnosisID: selectedDiagnosisID
-  //     }
-  //   })
-  //   .then(function (response) {
-  //     const diagnosis = response.data;
-  //     console.log("length of diagnosis: ", Object.keys(diagnosis).length);
-  //     dispatch(setDiag(diagnosis));
-  //     setIsNextLoading(false);
-  //     navigation.navigate('TagList', { selectedPatientID, selectedDiagnosisID });
-  //     })
-  //   .catch(function (error) {
-  //     if (error.response && error.response.data) {
-  //       setIsNextLoading(false);
-  //       alert(error.response.data);
-  //       console.log("Response from server: ", error.response.data);
-  //   } else {
-  //       console.log("Error occurred: ", error);
-  //   }
-  // });
+    axios.get(`${API_URL}/diagnosis/getDiagnosis`, {
+      params: {
+        diagnosisID: selectedDiagnosisID
+      }
+    })
+    .then(function (response) {
+      const diagnosis = response.data;
+      console.log("length of diagnosis: ", Object.keys(diagnosis).length);
+      dispatch(setDiag(diagnosis));
+      setIsNextLoading(false);
+      navigation.navigate('TagList', { selectedPatientID, selectedDiagnosisID });
+      })
+    .catch(function (error) {
+      if (error.response && error.response.data) {
+        setIsNextLoading(false);
+        alert(error.response.data);
+        console.log("Response from server: ", error.response.data);
+    } else {
+        console.log("Error occurred: ", error);
+    }
+  });
 
 }
 

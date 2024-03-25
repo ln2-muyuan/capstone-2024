@@ -3,10 +3,10 @@ const fs = require('fs');
 const User = require('../models/user.model');
 const Patient = require('../models/patient.model');
 const Diagnosis = require('../models/diagnosis.model');
+const path = require('path');
 
 const { execSync } = require('child_process');
-const { constrainedMemory } = require('process');
-const { type } = require('os');
+
 
 exports.handleUpload = function(req, res) {
 
@@ -61,39 +61,81 @@ exports.handleUpload = function(req, res) {
       res.send("Patient creation failed");
     }
 
-    const ImageElement = { tag: "T1XX", image: ["afaasd123fdf"]}
 
-    let diagnosis = new Diagnosis({
-      diagnosisID: diagnosisID,
-      diagnosisImage: ImageElement
-    });
 
-    try {
-      const existingDiagnosis = await Diagnosis.findOne({ diagnosisID: diagnosisID });
-      if (!existingDiagnosis) {
-        await diagnosis.save();
-        console.log("Server: successfully saved diagnosis");
+
+
+
+
+    const folderPath = path.join('tempdata/original-base64', patientID.toString(), diagnosisID.toString());
+    console.log(folderPath)
+    fs.readdir(folderPath, async (err, files) => {
+      if (err) {
+        console.error('Error reading folder:', err);
+        res.send('Diagnosis creation failed');
+        return;
       }
-      else {
-        for (let i = 0; i < existingDiagnosis.diagnosisImage.length; i++) {
-          if (existingDiagnosis.diagnosisImage[i].tag === ImageElement.tag) {
-            console.log("The tag has already been added");
+
+    
+      for (let i = 0; i < files.length; i++) {
+        const filename = files[i];
+        console.log(filename)
+        const filePath = path.join(folderPath, filename);
+        console.log(filePath)
+        const filecontent = []
+        fs.readdir(filePath, (err, files) => {
+          if (err) {
+            console.error('Error reading folder:', err);
+            return;
           }
+          files.forEach(file => {
+            const content = fs.readFileSync(path.join(filePath, file), 'utf8');
+            filecontent.push(content);
+          });
+        });
+
+        const imageElements = {
+          tag: filename,
+          image: filecontent
+        };
+
+
+        let diagnosis = new Diagnosis({
+          diagnosisID: diagnosisID,
+          diagnosisImage: imageElements
+        });
+      
+        try {
+          const existingDiagnosis = await Diagnosis.findOne({ diagnosisID: diagnosisID });
+          if (!existingDiagnosis) {
+            await diagnosis.save();
+            console.log('Server: successfully saved diagnosis');
+          } else {
+            let push = true
+            for (let i = 0; i < existingDiagnosis.diagnosisImage.length; i++) {
+              if (existingDiagnosis.diagnosisImage[i].tag === imageElements.tag) {
+                console.log('Tag ' + imageElements.tag + ' already exists');
+                push = false;
+                break;
+              }
+            }
+            if (push) {
+              existingDiagnosis.diagnosisImage.push(imageElements);
+              await existingDiagnosis.save();
+              console.log('Server: successfully added diagnosisImage');
+            }
+          }
+        } catch (err) {
+          console.log(err);
+          res.send('Diagnosis creation failed');
         }
-        // 这里不用existingDiagnosis.diagnosisImage.push(...req.body.diagnosisImage);
-        existingDiagnosis.diagnosisImage.push(ImageElement);
-        // 记得保存！！！
-        await existingDiagnosis.save();
-        console.log("Server: successfully added diagnosisImage");
-        
+
+
+
       }
-    }
-    catch (err) {
-      console.log(err);
-      res.send("Diagnosis creation failed");
-    }
 
 
+    });
 
 
 

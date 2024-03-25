@@ -9,8 +9,11 @@ export const diagSlice = createSlice({
         setDiag: (state, action) => {
         state.diag = action.payload;
         },
+        clearDiag: (state) => {
+        state.diag = null;
+        }
     },
 });
 
-export const { setDiag } = diagSlice.actions;
+export const { setDiag, clearDiag } = diagSlice.actions;
 export default diagSlice.reducer;

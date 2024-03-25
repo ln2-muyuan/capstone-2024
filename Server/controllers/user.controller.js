@@ -6,7 +6,7 @@ exports.register = async function (req, res) {
     let user = new User({
             name: req.body.name,
             email: req.body.email,
-            password: req.body.password
+            password: req.body.password,
         }
     );
     try {
@@ -14,6 +14,7 @@ exports.register = async function (req, res) {
         if (existingUser) {
             return res.status(400).send("User already exists");
         }
+        console.log("here!")
         await user.save();
         console.log("Server: successfully saved user");
         res.send("User created successfully");

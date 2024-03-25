@@ -49,8 +49,8 @@ const TagList = ({ route, navigation }) => {
 
   const modelList = [
     { id: 1, name: 'ResNet' },
-    { id: 2, name: 'UNet' },
-    { id: 3, name: 'Trans-UNet' },
+    // { id: 2, name: 'UNet' },
+    // { id: 3, name: 'Trans-UNet' },
   ];
   
   const handleModelSelection = (model) => {
