@@ -6,7 +6,7 @@ exports.register = async function (req, res) {
     let user = new User({
             name: req.body.name,
             email: req.body.email,
-            password: req.body.password
+            password: req.body.password,
         }
     );
     try {
@@ -14,6 +14,7 @@ exports.register = async function (req, res) {
         if (existingUser) {
             return res.status(400).send("User already exists");
         }
+        console.log("here!")
         await user.save();
         console.log("Server: successfully saved user");
         res.send("User created successfully");
@@ -27,6 +28,7 @@ exports.register = async function (req, res) {
 exports.login = async function (req, res) {
     const email = req.body.email;
     const password = req.body.password;
+    console.log("Server: received login request")
     try {
         const user = await User.findOne( {email: email} )
         const userName = user.name;
@@ -80,11 +82,11 @@ exports.getPatients = async function (req, res) {
         let patientsData = []
         for (let i = 0; i < patientsID.length; i++) {
             const patient = await Patient.findOne( {patientID: patientsID[i]} )
+            console.log(patient)
             if (!patient) {
-                return res.status(400).send("Patient not found");
+                console.log("Patient not found in the patient document");
             }
             patientsData.push({
-                name: patient.name,
                 patientID: patient.patientID,
                 diagnosisID : patient.diagnosisID
             })

@@ -9,7 +9,7 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import axios from 'axios';
 import Toast from 'react-native-toast-message';
-
+import API_URL from '../utils/request';
 
 const Register = ({navigation}) => {
   const [name,setName] = useState('')
@@ -18,7 +18,7 @@ const Register = ({navigation}) => {
 
 
   const register = () => {
-    axios.post('http://10.0.2.2:8800/user/register', {
+    axios.post(`${API_URL}/user/register`, {
       name: name,
       password: password,
       email: email

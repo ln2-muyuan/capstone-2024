@@ -31,7 +31,7 @@ const App = () => {
           <Stack.Screen name="TagList" component={TagList} />
           <Stack.Screen options={{ headerShown: false }} name="RunModel" component={RunModel} />
           <Stack.Screen name="Manage" component={Manage} />
-          <Stack.Screen options={{ headerShown: false }} name="Profile" component={Profile} />
+          <Stack.Screen options={{title:"Profile "}} name="Profile" component={Profile} />
           <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
           <Stack.Screen options={{ headerShown: false }} name="Register" component={Register} />
         

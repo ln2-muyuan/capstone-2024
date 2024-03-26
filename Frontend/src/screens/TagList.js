@@ -3,6 +3,8 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, Button, ScrollView,
 import ImageSlider from '../components/ImageSlider';
 import Navbar from '../components/Navbar';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
+import API_URL from '../utils/request';
 
 
 const TagList = ({ route, navigation }) => {
@@ -12,7 +14,7 @@ const TagList = ({ route, navigation }) => {
   console.log("Taglist selectedPatientID: " + selectedPatientID);
   console.log("TagList selectedDiagnosisID: " + selectedDiagnosisID);
 
-  const [selectedTags, setselectedTags] = useState('');
+  const [selectedTag, setselectedTag] = useState('');
   
   const tagsList = [
     { id: 1, name: 'T1GC' },
@@ -27,11 +29,11 @@ const TagList = ({ route, navigation }) => {
   ];
 
   const handleTagsSelection = (tag) => {
-    setselectedTags(tag);
+    setselectedTag(tag);
   };
 
   const renderTags = ({ item }) => {
-    const isSelected = selectedTags === item.name;
+    const isSelected = selectedTag === item.name;
     return (
       <TouchableOpacity
         style={[styles.item, isSelected && styles.selectedItem]}
@@ -49,8 +51,8 @@ const TagList = ({ route, navigation }) => {
 
   const modelList = [
     { id: 1, name: 'ResNet' },
-    { id: 2, name: 'UNet' },
-    { id: 3, name: 'Trans-UNet' },
+    // { id: 2, name: 'UNet' },
+    // { id: 3, name: 'Trans-UNet' },
   ];
   
   const handleModelSelection = (model) => {
@@ -76,12 +78,12 @@ const TagList = ({ route, navigation }) => {
   const diagnosis = useSelector((state) => state.diag.diag);
   const handlePreviewPress = () => {
     // check whether the user has selected a tag and the model
-    if (selectedTags === '') {
+    if (selectedTag === '') {
       alert('Please select a tag!');
       return;
     }
     // check diagnosis.diagnosisImage whether includes the selected tag
-    const selectedDiagnosis = diagnosis.diagnosisImage.find((item) => item.tag === selectedTags);
+    const selectedDiagnosis = diagnosis.diagnosisImage.find((item) => item.tag === selectedTag);
     if (!selectedDiagnosis) {
       alert("Not found the tag's image!");
       return;
@@ -93,7 +95,7 @@ const TagList = ({ route, navigation }) => {
   };
 
   const handleRunPress = () => {
-    if (selectedTags === '') {
+    if (selectedTag === '') {
       alert('Please select a tag!');
       return;
     }
@@ -102,27 +104,52 @@ const TagList = ({ route, navigation }) => {
       return;
     }
     if (selectedModel === 'ResNet') {
-      const selectedDiagnosis = diagnosis.diagnosisImageResNetTotalMask.find((item) => item.tag === selectedTags);
-      if (!selectedDiagnosis) {
-        alert("The model has not been trained yet!");
-        return;
+      // const selectedDiagnosis = diagnosis.diagnosisImageResNetTotalMask.find((item) => item.tag === selectedTag);
+      // if (!selectedDiagnosis) {
+      //   alert("The model has not been trained yet!");
+      //   return;
+      // }
+      try{
+        console.log("Selected Diagnosis ID: ", selectedDiagnosisID);
+        console.log("Selected Tag: ", selectedTag);
+        axios.post(`${API_URL}/useModel`, {
+            model: "ResNet",
+            diagnosisID: selectedDiagnosisID,
+            tag: selectedTag,
+        })
+        .then(function (response) {
+          console.log("Response from server: ", response.data);
+        })
+        .catch(function (error) {
+          console.log("Response from server: ", error.response.data);
+        });
       }
+      catch (err) {
+        console.log(err);
+      }
+      
+
     }
     if (selectedModel === 'UNet') {
-      const selectedDiagnosis = diagnosis.diagnosisImageUNetTotalMask.find((item) => item.tag === selectedTags);
+      const selectedDiagnosis = diagnosis.diagnosisImageUNetTotalMask.find((item) => item.tag === selectedTag);
       if (!selectedDiagnosis) {
         alert("The model has not been trained yet!");
         return;
       }
     }
     if (selectedModel === 'Trans-UNet') {
-      const selectedDiagnosis = diagnosis.diagnosisImageTransUNetTotalMask.find((item) => item.tag === selectedTags);
+      const selectedDiagnosis = diagnosis.diagnosisImageTransUNetTotalMask.find((item) => item.tag === selectedTag);
       if (!selectedDiagnosis) {
         alert("The model has not been trained yet!");
         return;
       }
     }
-    navigation.navigate('RunModel', { selectedPatientID: selectedPatientID, selectedDiagnosisID: selectedDiagnosisID, selectedTags: selectedTags, selectedModel: selectedModel });
+    // navigation.navigate('RunModel', { selectedPatientID: selectedPatientID, selectedDiagnosisID: selectedDiagnosisID, selectedTag: selectedTag, selectedModel: selectedModel });
+  
+  
+  
+  
+  
   };
 
  
@@ -143,7 +170,7 @@ const TagList = ({ route, navigation }) => {
         />
         {/* <View style={styles.selectedPatientIDContainer}>
           <Text style={styles.selectedPatientIDText}>Selected tags: </Text>
-          {selectedTags.map((tag) => (
+          {selectedTag.map((tag) => (
             console.log(tag),
             <Text key={tag} style={styles.selectedTag}>{tag}</Text>
           ))}
@@ -162,7 +189,7 @@ const TagList = ({ route, navigation }) => {
     
       {showSlider && (
         <View style={{ marginTop: 20 }}>
-        <ImageSlider key={sliderKey} diagnosisID={selectedDiagnosisID} tag={selectedTags} model={"Preview"} size={350} orientation={"bottom"}/>
+        <ImageSlider key={sliderKey} diagnosisID={selectedDiagnosisID} tag={selectedTag} model={"Preview"} size={350} orientation={"bottom"}/>
         </View>
       )}
 

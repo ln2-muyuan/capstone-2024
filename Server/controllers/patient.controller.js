@@ -3,7 +3,6 @@ const Patient = require('../models/patient.model');
 
 exports.addPatient = async function (req, res) {
     let patient = new Patient({
-            name: req.body.name,
             patientID: req.body.patientID,
             diagnosisID: req.body.diagnosisID
         }

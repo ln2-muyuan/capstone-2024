@@ -6,6 +6,8 @@ import { useDispatch } from 'react-redux';
 import { setDiag } from '../store/diagSlice';
 import { setPatient } from '../store/patientSlice';
 import Navbar from '../components/Navbar';
+import API_URL from '../utils/request';
+
 
 const ObjectList = ({ navigation }) => {
   const [selectedPatientID, setselectedPatientID] = useState('');
@@ -15,28 +17,29 @@ const ObjectList = ({ navigation }) => {
   const patient = useSelector((state) => state.patient.patient);
   console.log("ObjectList patient: ", patient)
 
-  const patientList = patient.map((patient, index) => {
-    return {
-      id: index + 1,
-      name: patient.name + '-' + patient.patientID,
-    };
-  });
+  let patientList = [];
+  if (patient !== null && Array.isArray(patient)) {
+    patientList = patient.map((patient, index) => {
+      return {
+        id: index + 1,
+        patientID: patient.patientID,
+      };
+    });
+  }
+
+  console.log("ObjectList patientList: ", patientList)
 
   const [diagnosisID, setDiagnosisID] = useState([]);
   const [selectedDiagnosisID, setselectedDiagnosisID] = useState('');
 
-  // const patientList = [
-  //   { id: 1, name: 'PatientA-673415', tags: ['标签1', '标签2'] },
-  //   { id: 2, name: 'PatientB-375080', tags: ['标签2', '标签3'] },
-  //   { id: 3, name: 'PatientC-751391', tags: ['标签2', '标签3'] },
-  //   { id: 4, name: 'PatientD-769546', tags: ['标签2', '标签3'] },
-  //   { id: 5, name: 'PatientE-134682', tags: ['标签2', '标签3'] },
-  // ];
 
   const handlePatientSelection = (tag) => {
     setFirstLoad(false);
+    console.log("tag is: ", tag)
+
     setselectedPatientID(tag);
-    const selectedPatient = patient.find((patient) => patient.name + '-' + patient.patientID === tag);
+    const selectedPatient = patient.find((patient) => patient.patientID === tag);
+    console.log("selectedPatient's diagnosis is: ", selectedPatient.diagnosisID)
     if (selectedPatient) {
       setDiagnosisID(selectedPatient.diagnosisID);
       setselectedDiagnosisID('');
@@ -44,13 +47,17 @@ const ObjectList = ({ navigation }) => {
   };
 
   const renderPatients = ({ item }) => {
-    const isSelected = selectedPatientID.includes(item.name);
+    console.log("item is: ", item)
+    console.log("item.patientID is: ", item.patientID)
+    console.log("selectedPatientID is: ", selectedPatientID)
+    const isSelected = selectedPatientID === item.patientID;
+    // const isSelected = selectedPatientID.includes(item.patientID);
     return (
       <TouchableOpacity
         style={[styles.item, isSelected && styles.selectedItem]}
-        onPress={() => handlePatientSelection(item.name)}
+        onPress={() => handlePatientSelection(item.patientID)}
       >
-        <Text style={styles.itemText}>{item.name}</Text>
+        <Text style={styles.itemText}>{item.patientID}</Text>
       </TouchableOpacity>
     );
   };
@@ -97,7 +104,7 @@ const ObjectList = ({ navigation }) => {
     
 
     setIsNextLoading(true);
-    axios.get('http://10.0.2.2:8800/diagnosis/getDiagnosis', {
+    axios.get(`${API_URL}/diagnosis/getDiagnosis`, {
       params: {
         diagnosisID: selectedDiagnosisID
       }
@@ -118,6 +125,7 @@ const ObjectList = ({ navigation }) => {
         console.log("Error occurred: ", error);
     }
   });
+
 }
 
   // useSelector必须放在外面，不能放在函数里面
@@ -126,7 +134,7 @@ const ObjectList = ({ navigation }) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const onRefresh = () => {
     setIsRefreshing(true);
-    axios.get('http://10.0.2.2:8800/user/getPatients', {
+    axios.get(`${API_URL}/user/getPatients`, {
       params: {
         email: email
       }
@@ -144,11 +152,18 @@ const ObjectList = ({ navigation }) => {
   }
 
   return (
+    
     <View style={styles.container} >
-    <ScrollView refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}>
+      <ScrollView refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}>
+
+      {patientList.length > 0 ? (
+        <Text style={styles.title}>Select recent patient:</Text>
+      ) : (
+        <Text style={{ fontSize: 16, marginBottom: 12, marginLeft: 12}}>No patient found, please upload first</Text>
+      )}
 
 
-      <Text style={styles.title}>Select recent patient:</Text>
+      
       <FlatList
         style={{ marginBottom: 10 }}
         data={patientList}
@@ -193,16 +208,7 @@ const ObjectList = ({ navigation }) => {
 
 
 
-      {isNextLoading && <>
- 
-
-
-          <View style={styles.loaderContainer}>
-            <ActivityIndicator size="large" color="#0000ff" />
-          </View>
-
-
-      </>}
+  
         
       <TouchableOpacity style={styles.button} onPress={handleNext}>
         <Text style={styles.buttonText}>Next</Text>
@@ -213,10 +219,21 @@ const ObjectList = ({ navigation }) => {
 
 
 
-    </ScrollView>
-    
+      </ScrollView>
+      {isNextLoading && <>
+          <View style={styles.loaderContainer}>
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>
+      </>}
     <Navbar />
     </View>
+
+
+
+
+
+
+
   );
 };
 
@@ -295,7 +312,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: '50%',
     left: '50%',
-    transform: [{ translateX: -50 }, { translateY: -25 }], // 将加载指示器向左上方偏移自身一半的大小
+    transform: [{ translateX: -25 }, { translateY: -50 }], // 将加载指示器向左上方偏移自身一半的大小
     backgroundColor: 'rgba(0, 0, 0, 0.3)', // 半透明黑色背景
     borderRadius: 10,
     padding: 20,

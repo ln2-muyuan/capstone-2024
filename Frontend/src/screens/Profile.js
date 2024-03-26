@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import Navbar from '../components/Navbar';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../store/loginSlice';
+import { clearDiag } from '../store/diagSlice';
+import { clearPatient } from '../store/patientSlice';
 
 const Profile = ({ navigation }) => {
 
@@ -13,17 +15,18 @@ const Profile = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Profile</Text>
+     
       {loggedIn ? (
         <View>
-          <Text>Welcome {user.name}</Text>
-          <TouchableOpacity onPress={() => dispatch(logout())}>
+          <Text style={{ fontSize: 32, color: '#41C9E2', fontStyle: 'italic', fontWeight: 'bold' }}>Welcome {user.name}</Text>
+          <TouchableOpacity onPress={() => {dispatch(logout()); dispatch(clearDiag()); dispatch(clearPatient())}}>
             <Text style={styles.linkText}>Logout</Text>
           </TouchableOpacity>
         </View>
       ) : (
         <View>
-          <Text>Please login or register to view your profile.</Text>
+          <Text style={styles.title}>Profile</Text>
+          <Text style={{ fontSize: 18 }}>Please login or register to view your profile.</Text>
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>
             <Text style={styles.linkText}>Login / Register</Text>
           </TouchableOpacity>
@@ -42,13 +45,15 @@ const styles = {
   },
   title: {
     fontSize: 24,
+
     fontWeight: 'bold',
     marginBottom: 20,
   },
   linkText: {
+    marginTop: 30,
     textAlign: 'center',
-    fontSize: 16,
-    color: '#0000EE',
+    fontSize: 24,
+    color: '#5356FF',
     textDecorationLine: 'underline',
     marginTop: 10,
   },

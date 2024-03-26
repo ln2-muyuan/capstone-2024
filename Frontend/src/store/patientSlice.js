@@ -12,8 +12,14 @@ export const patientSlice = createSlice({
         console.log("Redux patient: ", state.patient);
         console.log("Redux patient: ", state.patient[0].diagnosisID);
         },
+        clearPatient: (state) => {
+        state.patient = null;
+        }
     },
 });
 
-export const { setPatient } = patientSlice.actions;
+export const { setPatient, clearPatient } = patientSlice.actions;
 export default patientSlice.reducer;
+
+
+// for test on change branch
