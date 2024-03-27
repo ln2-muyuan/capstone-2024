@@ -8,6 +8,9 @@ const express = require('express');
 
 const router = express.Router();
 
+// router.use('/', (req, res) => {
+//     res.send('Welcome to Capstone 2024 API');
+// });
 router.use('/user', userRoutes);
 router.use('/patient', patientRoutes);
 router.use('/diagnosis', diagnosisRoutes);

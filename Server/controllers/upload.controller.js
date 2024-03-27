@@ -15,8 +15,8 @@ exports.handleUpload = function(req, res) {
 
     // 上传文件
     console.log("Uploading")
-    execSync('python ../data-process/preprocess/unzip_to_png.py');
-    execSync('python ../data-process/preprocess/base64_converter.py');
+    execSync('python ../Data-process/preprocess/unzip_to_png.py');
+    execSync('python ../Data-process/preprocess/base64_converter.py');
     console.log("Uploaded successfully")
  
 

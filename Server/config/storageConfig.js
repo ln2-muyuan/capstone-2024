@@ -2,6 +2,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const folderPath = 'tempdata/input/';
@@ -9,6 +10,7 @@ const storage = multer.diskStorage({
       (folderPath)) {
       fs.mkdirSync(folderPath, { recursive: true });
     }
+
     cb(null, folderPath);
   },
   filename: function (req, file, cb) {

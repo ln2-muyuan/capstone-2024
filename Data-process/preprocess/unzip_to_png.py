@@ -33,6 +33,7 @@ def convert_to_png(file_path):
         slice_data = data[:, :, i]
         slice_data = np.uint8(slice_data)
         image = Image.fromarray(slice_data)
+
         output_file = os.path.join(png_path, f'slice_{i}.png')
         image.save(output_file)
 
@@ -46,11 +47,12 @@ def main():
     # print(os.getcwd())
     folder_path = 'tempdata/input'  
     extract_path = 'tempdata/original-png'
-
+    another_path = '../../MED_NNs_Mobile/uploaded_data/100sgml/polyu'
     # 确保导出目录存在
     os.makedirs(extract_path, exist_ok=True)
 
     unzip_all_files(folder_path, extract_path)
+    unzip_all_files(folder_path, another_path)
     # print('解压缩完成')
 
     for root, dirs, files in os.walk(extract_path):
