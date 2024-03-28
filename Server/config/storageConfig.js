@@ -14,6 +14,7 @@ const storage = multer.diskStorage({
     cb(null, folderPath);
   },
   filename: function (req, file, cb) {
+    //上传同名文件会覆盖
     cb(null, file.originalname);
   }
 });

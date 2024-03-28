@@ -9,10 +9,9 @@ def convert_to_base64(file_path):
     return base64_data
 
 def main():
-    folder_path = 'tempdata/original-png'
-    base64_folder = 'tempdata/original-base64'
+    folder_path = '../../Server/tempdata/original-png'
+    base64_folder = '../../Server/tempdata/original-base64'
 
-    # 创建目标文件夹
     os.makedirs(base64_folder, exist_ok=True)
 
     for root, dirs, files in os.walk(folder_path):
@@ -27,10 +26,8 @@ def main():
                 os.makedirs(base64_dir, exist_ok=True)
                 base64_file_path = os.path.join(base64_dir, f'{file_name}.txt')
 
-                # 将 Base64 数据写入输出文件
                 with open(base64_file_path, 'w') as output_file:
                     output_file.write(base64_data)
-
                 # print(f'Converted {file_path} to Base64: {base64_file_path}')
 
 if __name__ == '__main__':

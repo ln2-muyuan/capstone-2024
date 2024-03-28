@@ -5,15 +5,7 @@ import nibabel as nib
 from PIL import Image
 import numpy as np
 import json
-
-
-
-def unzip_all_files(folder_path, extract_path):
-    for file_name in os.listdir(folder_path):
-        file_path = os.path.join(folder_path, file_name)
-        if zipfile.is_zipfile(file_path):
-            with zipfile.ZipFile(file_path, 'r') as zip_ref:
-                zip_ref.extractall(extract_path)
+import shutil
 
 
 def convert_to_png(file_path):
@@ -40,49 +32,54 @@ def convert_to_png(file_path):
     os.remove(file_path)
 
 
+def unzip_all_files(folder_path, extract_paths):
+    for file_name in os.listdir(folder_path):
+
+        file_path = os.path.join(folder_path, file_name)
+        # 如果已经有解压后的同名文件夹，删除之前的
+        for extract_path in extract_paths:
+            if os.path.exists(os.path.join(extract_path, file_name.split('.')[0])):
+                shutil.rmtree(os.path.join(extract_path, file_name.split('.')[0]))
+
+        if zipfile.is_zipfile(file_path):
+            with zipfile.ZipFile(file_path, 'r') as zip_ref:
+                for extract_path in extract_paths:
+                    zip_ref.extractall(extract_path)
+        # 删除掉input文件夹里的内容
+        os.remove(folder_path + '/' + file_name)
+        return file_name.split('.')[0]
 
 
 def main():
-    # 先看下当前路径在哪里
     # print(os.getcwd())
-    folder_path = 'tempdata/input'  
-    extract_path = 'tempdata/original-png'
-    another_path = '../../MED_NNs_Mobile/uploaded_data/100sgml/polyu'
-    # 确保导出目录存在
-    os.makedirs(extract_path, exist_ok=True)
+    folder_path = '../../Server/tempdata/input'  
+    extract_paths = ['../../Server/tempdata/original-png', '../../../MED_NNs_Mobile/uploaded_data/100sgml/polyu']
+    for extract_path in extract_paths:
+        os.makedirs(extract_path, exist_ok=True)
 
-    unzip_all_files(folder_path, extract_path)
-    unzip_all_files(folder_path, another_path)
-    # print('解压缩完成')
+    filename = unzip_all_files(folder_path, extract_paths)
+    print('解压缩完成')
 
-    for root, dirs, files in os.walk(extract_path):
+
+
+    for root, dirs, files in os.walk(extract_paths[0]):
         for file_name in files:
             if file_name.endswith('.nii'):
                 file_path = os.path.join(root, file_name)
                 convert_to_png(file_path)
-                # print(f'Converted {file_path} to PNG')
+    print('转换png完成')        
 
-    current_path = os.getcwd()
 
-    child_path = os.path.join(current_path,'tempdata', 'original-png')
+    # print(filename)
+    patientID = filename
+    child_path = os.path.join(extract_path, filename)
+    diagnosisID = os.listdir(child_path)[0]
+    # print(diagnosisID)
 
-    patients = []
-    diagnosisID = []
-    if os.path.exists(child_path) and os.path.isdir(child_path):
-        subdirs = os.listdir(child_path)
-        for subdir in subdirs:
-            if os.path.isdir(os.path.join(child_path, subdir)):
-                patients.append(subdir)
-                current_path = os.path.join(child_path, subdir)
-                subdirs = os.listdir(current_path)
-                for subdir in subdirs:               
-                    diagnosisID.append(subdir)
-
-    
-    patient_data = {"patientID": int(patients[0]), "diagnosisID": int(diagnosisID[0])}
-
-    with open("tempdata/add_patient_to_user.json", "w") as f:
+    patient_data = {"patientID": int(patientID), "diagnosisID": int(diagnosisID)}
+    with open("../../Server/tempdata/add_patient_to_user.json", "w") as f:
         json.dump(patient_data, f)
+    print('写入json完成')
 
 
 

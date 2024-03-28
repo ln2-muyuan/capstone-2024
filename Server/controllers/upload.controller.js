@@ -15,15 +15,14 @@ exports.handleUpload = function(req, res) {
 
     // 上传文件
     console.log("Uploading")
-    execSync('python ../Data-process/preprocess/unzip_to_png.py');
-    execSync('python ../Data-process/preprocess/base64_converter.py');
+    execSync('python unzip_to_png.py', {cwd: '../Data-process/preprocess/'});
+    execSync('python base64_converter.py', {cwd: '../Data-process/preprocess/'});
     console.log("Uploaded successfully")
  
 
 
     // 更新用户数据
     const email = req.body.email;
-    
     const user = await User.findOne( {email: email} )
 
     const data = fs.readFileSync('tempdata/add_patient_to_user.json', 'utf8'); // 从 JSON 文件中读取数据
@@ -38,8 +37,6 @@ exports.handleUpload = function(req, res) {
       console.log("Server: successfully saved patientID");
     }
    
-  
-
 
     // 添加病人数据
     const diagnosisID = JSON.parse(data).diagnosisID;
@@ -66,7 +63,7 @@ exports.handleUpload = function(req, res) {
 
 
 
-
+    // 添加诊断数据
     const folderPath = path.join('tempdata/original-base64', patientID.toString(), diagnosisID.toString());
     console.log(folderPath)
     fs.readdir(folderPath, async (err, files) => {
@@ -129,12 +126,7 @@ exports.handleUpload = function(req, res) {
           console.log(err);
           res.send('Diagnosis creation failed');
         }
-
-
-
       }
-
-
     });
 
 
@@ -148,20 +140,15 @@ exports.handleUpload = function(req, res) {
     
 
 
-    // 在上传后删除文件夹
-    // fs.rm('tempdata', { recursive: true }, (err) => {
-    //   if (err) {
-    //     console.log(err);
-    //     return res.status(400).send({ message: err.message });
-    //   }
-    //   console.log('tempdata deleted');
-    // });
+
 
 
     if (err) {
       return res.status(400).send({ message: err.message });
     }
     res.status(200).send({ message: 'File uploaded successfully' });
+
+
   });
 
 
